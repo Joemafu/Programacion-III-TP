@@ -40,6 +40,8 @@ require_once './controllers/PedidoController.php';
 require_once './controllers/ProductoController.php';
 require_once './controllers/UsuarioController.php';
 require_once './db/AccesoDatos.php';
+require_once './Middlewares/LoginMiddleware.php';
+require_once './Middlewares/JwtTokenGeneratorMiddleware.php';
 
 
 // Crear una instancia de la aplicación Slim
@@ -89,6 +91,11 @@ $app->addBodyParsingMiddleware();
 
 
 
+
+
+
+
+
 // Defino las rutas dentro del grupo '/usuarios'
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     // Ruta para el verbo POST
@@ -122,6 +129,24 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
   });
 
 
+  $app->post('/login', function ($request, $response, $args) {
+    return $response;
+  })
+  ->add(new LoginMiddleware())
+  ->add(new JwtTokenGeneratorMiddleware("UTNFRA2023#"))
+  ;
+
+
+
+
+
+
+
+
+
+
+
+
 
 // // Definir las rutas dentro del grupo '/productos'
 // $app->group('/productos', function (RouteCollectorProxy $group) {
@@ -141,8 +166,6 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 //         return $response->withHeader('Content-Type', 'application/json');
 //     });
 // });
-
-
 
 // // Definir las rutas dentro del grupo '/mesas'
 // $app->group('/mesas', function (RouteCollectorProxy $group) {
@@ -174,7 +197,6 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 
 
 
-// Ejecutar la aplicación Slim
 $app->run();
 
 // composer update

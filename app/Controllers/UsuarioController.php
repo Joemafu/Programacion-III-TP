@@ -12,7 +12,7 @@ class UsuarioController extends Usuario implements IApiUsable
         $clave = $parametros['clave'];
         $rol = $parametros['rol'];
 
-        $usr = new Usuario($usuario,$clave,$rol);
+        $usr = new Usuario();
         $usr->usuario=$usuario;
         $usr->clave=$clave;
         $usr->rol=$rol;

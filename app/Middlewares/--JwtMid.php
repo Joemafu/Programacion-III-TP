@@ -18,7 +18,7 @@ class JwtMid
         try {
             return JWT::decode($token, $_SERVER['SECRET_KEY'], ['HS256']);
         } catch (\UnexpectedValueException) {
-            throw new JwtMid('Acceso denegado.', 403);
+            
         }
     }
 
