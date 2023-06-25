@@ -16,7 +16,6 @@ class JwtTokenGeneratorMiddleware
 
     public function __invoke(Request $request, RequestHandler $handler): Response
     {
-        var_dump($request);
 
         $data = $request->getParsedBody();
 
@@ -27,17 +26,11 @@ class JwtTokenGeneratorMiddleware
             'rol' => $rol,
         ];
 
-        //var_dump($payload);
-
         try {
             $token = JWT::encode($payload, $this->secretKey, 'HS256');
-
-            //echo $token;
             
             $response = $handler->handle($request);
             $response = $response->withHeader('Authorization', 'Bearer ' . $token);
-
-            //echo $token;
             
             return $response;
         } catch (Exception $e) {

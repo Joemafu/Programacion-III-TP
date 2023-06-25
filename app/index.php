@@ -1,15 +1,18 @@
 <?php
 
 /*
-    ● AGREGAR EL GRUPO /CREDENCIALES CON LOS VERBOS GET Y POST (MOSTRAR QUE VERBO ES).
-
-    ● AL GRUPO, AGREGARLE UN MW QUE, DE ACUERDO EL VERBO, VERIFIQUE CREDENCIALES O NO.
-
-    ● GET -> NO VERIFICA. ACCEDE AL VERBO.
-
-    ● POST-> VERIFICA; SE ENVIA: NOMBRE Y PERFIL.
-    *- SI EL PERFIL ES 'ADMINISTRADOR', MUESTRA EL NOMBRE Y ACCEDE AL VERBO.
-    *- SI NO, MUESTRA MENSAJE DE ERROR. NO ACCEDE AL VERBO.
+    1er Sprint (13/06)
+      ❖ Dar de alta y listar usuarios(mozo, bartender...)
+      ❖ Dar de alta y listar productos(bebidas y comidas)
+      ❖ Dar de alta y listar mesas
+      ❖ Dar de alta y listar pedidos
+    2do Sprint (20/06)
+      ❖ Usar MW de usuarios/perfiles
+      ❖ Verificar usuarios para las tareas de abm
+                                                              ❖ Manejo del estado del pedido
+    3er Sprint (27/06)
+                                                              ❖ Carga de datos desde un archivo .CSV
+                                                              ❖ Descarga de archivos .CSV
 */
 
 // Establecer el nivel de error a -1 para mostrar todos los errores
@@ -30,11 +33,10 @@ use Slim\Factory\AppFactory;
 // Importar la clase RouteCollectorProxy de Slim Routing
 use Slim\Routing\RouteCollectorProxy;
 // Importar Middleware JWT
-use App\Middlewares\JwtMiddleware;
+use App\Middlewares\JwtTokenValidatorMiddleware;
 
 // Requerir el archivo autoload.php para cargar las dependencias
 require __DIR__ . '/../vendor/autoload.php';
-//require_once "./Middlewares/JwtMiddleware.php";
 require_once './controllers/MesaController.php';
 require_once './controllers/PedidoController.php';
 require_once './controllers/ProductoController.php';
@@ -42,13 +44,10 @@ require_once './controllers/UsuarioController.php';
 require_once './db/AccesoDatos.php';
 require_once './Middlewares/LoginMiddleware.php';
 require_once './Middlewares/JwtTokenGeneratorMiddleware.php';
-
+require_once './Middlewares/JwtTokenValidatorMiddleware.php';
 
 // Crear una instancia de la aplicación Slim
 $app = AppFactory::create();
-
-// Establecer la ruta base (solo es necesario si lo levanto por xampp)
-// $app->setBasePath('C:/xampp/htdocs/Programacion-III/clase10');
 
 // Agregar el middleware de manejo de errores
 $app->addErrorMiddleware(true, true, true);
@@ -56,97 +55,45 @@ $app->addErrorMiddleware(true, true, true);
 // Agregar el middleware de análisis del cuerpo de la solicitud
 $app->addBodyParsingMiddleware();
 
-// Configuro clave secreta para la firma y verificación de JWT
-//$secretKey = '!UTNFRA2023#';
-
-// Creo una instancia del middleware JwtMiddleware
-//$jwtMiddleware = new JwtMiddleware($secretKey);
-
-// Agrego el middleware a la aplicación Slim
-//$app->add($jwtMiddleware);
-
-
-
-
-// // Definir las rutas dentro del grupo '/credenciales'
-// $app->group('/credenciales', function (RouteCollectorProxy $group) {
-//     // Ruta para el verbo GET
-//     $group->get('', function (Request $request, Response $response) {
-//         // Manejador para el verbo GET
-//         $payload = ['mensaje' => 'Verbo Get'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-
-//     // Ruta para el verbo POST
-//     $group->post('', function (Request $request, Response $response) {
-//         // Manejador para el verbo POST
-//         $payload = ['mensaje' => 'Verbo Post'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-// });
-
-
-
-
-
-
-
-
-
-
 // Defino las rutas dentro del grupo '/usuarios'
 $app->group('/usuarios', function (RouteCollectorProxy $group) {
     // Ruta para el verbo POST
-    $group->post('[/]', \UsuarioController ::class . ':CargarUno');
+    $group->post('[/]', \UsuarioController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     // Ruta para el verbo GET
-    $group->get('[/]', \UsuarioController ::class . ':TraerTodos');
+    $group->get('[/]', \UsuarioController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 // Defino las rutas dentro del grupo '/productos'
 $app->group('/productos', function (RouteCollectorProxy $group) {
     // Ruta para el verbo POST
-    $group->post('[/]', \ProductoController ::class . ':CargarUno');
+    $group->post('[/]', \ProductoController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     // Ruta para el verbo GET
-    $group->get('[/]', \ProductoController ::class . ':TraerTodos');
+    $group->get('[/]', \ProductoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
   });
   
   // Defino las rutas dentro del grupo '/mesas'
   $app->group('/mesas', function (RouteCollectorProxy $group) {
     // Ruta para el verbo POST
-    $group->post('[/]', \MesaController ::class . ':CargarUno');
+    $group->post('[/]', \MesaController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     // Ruta para el verbo GET
-    $group->get('[/]', \MesaController ::class . ':TraerTodos');
+    $group->get('[/]', \MesaController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
   });
   
   // Defino las rutas dentro del grupo '/pedidos'
   $app->group('/pedidos', function (RouteCollectorProxy $group) {
     // Ruta para el verbo POST
-    $group->post('[/]', \PedidoController ::class . ':CargarUno');
+    $group->post('[/]', \PedidoController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
     // Ruta para el verbo GET
-    $group->get('[/]', \PedidoController ::class . ':TraerTodos');
+    $group->get('[/]', \PedidoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
   });
 
 
   $app->post('/login', function ($request, $response, $args) {
     return $response;
   })
-  ->add(new LoginMiddleware())
   ->add(new JwtTokenGeneratorMiddleware("UTNFRA2023#"))
+  ->add(new LoginMiddleware())
   ;
-
-
-
-
-
-
-
-
-
-
-
-
 
 // // Definir las rutas dentro del grupo '/productos'
 // $app->group('/productos', function (RouteCollectorProxy $group) {
@@ -186,16 +133,24 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 //     });
 // });
 
+// // Definir las rutas dentro del grupo '/credenciales'
+// $app->group('/credenciales', function (RouteCollectorProxy $group) {
+//     // Ruta para el verbo GET
+//     $group->get('', function (Request $request, Response $response) {
+//         // Manejador para el verbo GET
+//         $payload = ['mensaje' => 'Verbo Get'];
+//         $response->getBody()->write(json_encode($payload));
+//         return $response->withHeader('Content-Type', 'application/json');
+//     });
 
-
-
-
-
-
-
-
-
-
+//     // Ruta para el verbo POST
+//     $group->post('', function (Request $request, Response $response) {
+//         // Manejador para el verbo POST
+//         $payload = ['mensaje' => 'Verbo Post'];
+//         $response->getBody()->write(json_encode($payload));
+//         return $response->withHeader('Content-Type', 'application/json');
+//     });
+// });
 
 $app->run();
 

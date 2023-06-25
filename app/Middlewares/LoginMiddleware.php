@@ -15,24 +15,11 @@ class LoginMiddleware
         $clave = $data['clave'] ?? '';
 
         $rol = LoginMiddleware::validarCredenciales($usuario, $clave);
-
-        //var_dump($rol);
     
         if ($rol!==false) {
 
-
-            //  pruebo pisando el parsed body
-
-            $request->withParsedBody([$rol]);
+            $request = $request->withParsedBody(['rol'=> $rol]);
             $response = $handler->handle($request);
-
-
-
-
-
-            // $request = $request->withAttribute('rol', $rol);
-            // var_dump($request);
-            // $response = $handler->handle($request);
     
             return $response;
 

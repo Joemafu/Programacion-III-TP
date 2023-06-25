@@ -12,7 +12,6 @@ class ProductoController extends Producto implements IApiUsable
         $precio = $parametros['precio'];
         $tipo = $parametros['tipo'];
 
-        // Creamos el usuario
         $producto = new Producto();
         $producto->nombre = $nombre;
         $producto->precio = $precio;
@@ -20,6 +19,15 @@ class ProductoController extends Producto implements IApiUsable
         $producto->crearProducto();
 
         $payload = json_encode(array("mensaje" => "Producto creado con exito"));
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerTodos($request, $response, $args)
+    {
+        $lista = Producto::obtenerTodos();
+        $payload = json_encode(array("listaProductos" => $lista));
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
@@ -36,15 +44,6 @@ class ProductoController extends Producto implements IApiUsable
     //     return $response
     //       ->withHeader('Content-Type', 'application/json');
     // }
-
-    public function TraerTodos($request, $response, $args)
-    {
-        $lista = Producto::obtenerTodos();
-        $payload = json_encode(array("listaProductos" => $lista));
-
-        $response->getBody()->write($payload);
-        return $response->withHeader('Content-Type', 'application/json');
-    }
     
     // public function ModificarUno($request, $response, $args)
     // {

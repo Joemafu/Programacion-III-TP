@@ -35,4 +35,14 @@ class Pedido
         
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
     }
+
+    public static function obtenerTragos()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, nombreCliente, estado, tiempoEstimado, foto FROM pedidos");
+        $consulta->execute();
+
+        
+        return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+    }
 }

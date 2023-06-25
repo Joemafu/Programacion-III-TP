@@ -11,18 +11,50 @@ class PedidoController extends Pedido implements IApiUsable
         $nombreCliente = $parametros['nombreCliente'];
         $estado = $parametros['estado'];
         $tiempoEstimado = $parametros['tiempoEstimado'];
-        $foto = $parametros['foto'];
+        $uploadedFiles = $request->getUploadedFiles();
+        $foto = $uploadedFiles['foto'];
+        $nombreArchivo = "/".date('Y-m-d H-i-s')."hs. ".$nombreCliente.".jpg";
 
-        // Creamos el pedido
+        var_dump($nombreArchivo);
+
+
+        $directorioDestino = '../ImagenesPedidos';
+
+        if (!is_dir($directorioDestino)) {
+            mkdir($directorioDestino, 0777, true);
+        }
+        $rutaDestino = $directorioDestino . $nombreArchivo;
+
+        var_dump($rutaDestino);
+        $foto->moveTo($rutaDestino);
+
         $pedido = new Pedido();
         $pedido->nombreCliente=$nombreCliente;
         $pedido->estado=$estado;
         $pedido->tiempoEstimado=$tiempoEstimado;
-        $pedido->foto=$foto;
+        $pedido->foto=$rutaDestino;
         
         $pedido->crearPedido();
 
         $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerTodos($request, $response, $args)
+    {
+        $lista = Pedido::obtenerTodos();
+        $payload = json_encode(array("listaPedidos" => $lista));
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function TraerTragos($request, $response, $args)
+    {
+        $lista = Pedido::obtenerTragos();
+        $payload = json_encode(array("listaTragos" => $lista));
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
@@ -39,15 +71,6 @@ class PedidoController extends Pedido implements IApiUsable
     //     return $response
     //       ->withHeader('Content-Type', 'application/json');
     // }
-
-    public function TraerTodos($request, $response, $args)
-    {
-        $lista = Pedido::obtenerTodos();
-        $payload = json_encode(array("listaPedidos" => $lista));
-
-        $response->getBody()->write($payload);
-        return $response->withHeader('Content-Type', 'application/json');
-    }
     
     // public function ModificarUno($request, $response, $args)
     // {
