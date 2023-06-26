@@ -53,8 +53,6 @@ class Pedido
                 return false;
             }            
         } catch (Exception $e) {
-            // Manejo de errores, por ejemplo, registrar el error en un archivo de registro
-            // o lanzar una excepción personalizada
             return false;
         }
 

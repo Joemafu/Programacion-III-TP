@@ -9,10 +9,10 @@
     2do Sprint (20/06)
       ❖ Usar MW de usuarios/perfiles
       ❖ Verificar usuarios para las tareas de abm
-                                                              ❖ Manejo del estado del pedido
+      ❖ Manejo del estado del pedido
     3er Sprint (27/06)
-                                                              ❖ Carga de datos desde un archivo .CSV
-                                                              ❖ Descarga de archivos .CSV
+      ❖ Carga de datos desde un archivo .CSV
+      ❖ Descarga de archivos .CSV
 */
 
 // Establecer el nivel de error a -1 para mostrar todos los errores
@@ -101,63 +101,6 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
   ->add(new JwtTokenGeneratorMiddleware("UTNFRA2023#"))
   ->add(new LoginMiddleware())
   ;
-
-// // Definir las rutas dentro del grupo '/productos'
-// $app->group('/productos', function (RouteCollectorProxy $group) {
-//     // Ruta para el verbo GET
-//     $group->get('', function (Request $request, Response $response) {
-//         // Manejador para el verbo GET
-//         $payload = ['mensaje' => 'Verbo Get'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-
-//     // Ruta para el verbo POST
-//     $group->post('', function (Request $request, Response $response) {
-//         // Manejador para el verbo POST
-//         $payload = ['mensaje' => 'Verbo Post'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-// });
-
-// // Definir las rutas dentro del grupo '/mesas'
-// $app->group('/mesas', function (RouteCollectorProxy $group) {
-//     // Ruta para el verbo GET
-//     $group->get('', function (Request $request, Response $response) {
-//         // Manejador para el verbo GET
-//         $payload = ['mensaje' => 'Verbo Get'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-
-//     // Ruta para el verbo POST
-//     $group->post('', function (Request $request, Response $response) {
-//         // Manejador para el verbo POST
-//         $payload = ['mensaje' => 'Verbo Post'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-// });
-
-// // Definir las rutas dentro del grupo '/credenciales'
-// $app->group('/credenciales', function (RouteCollectorProxy $group) {
-//     // Ruta para el verbo GET
-//     $group->get('', function (Request $request, Response $response) {
-//         // Manejador para el verbo GET
-//         $payload = ['mensaje' => 'Verbo Get'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-
-//     // Ruta para el verbo POST
-//     $group->post('', function (Request $request, Response $response) {
-//         // Manejador para el verbo POST
-//         $payload = ['mensaje' => 'Verbo Post'];
-//         $response->getBody()->write(json_encode($payload));
-//         return $response->withHeader('Content-Type', 'application/json');
-//     });
-// });
 
 $app->run();
 

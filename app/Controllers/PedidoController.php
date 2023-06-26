@@ -69,30 +69,4 @@ class PedidoController extends Pedido implements IApiUsable
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
-
-    // public function TraerUno($request, $response, $args)
-    // {
-    //     // Buscamos pedido por nombre
-    //     $usr = $args['pedido'];
-    //     $pedido = Pedido::obtenerPedido($usr);
-    //     $payload = json_encode($pedido);
-
-    //     $response->getBody()->write($payload);
-    //     return $response
-    //       ->withHeader('Content-Type', 'application/json');
-    // }
-
-    // public function BorrarUno($request, $response, $args)
-    // {
-    //     $parametros = $request->getParsedBody();
-
-    //     $pedidoId = $parametros['pedidoId'];
-    //     Pedido::borrarPedido($pedidoId);
-
-    //     $payload = json_encode(array("mensaje" => "Pedido borrado con exito"));
-
-    //     $response->getBody()->write($payload);
-    //     return $response
-    //       ->withHeader('Content-Type', 'application/json');
-    // }
 }
