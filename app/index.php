@@ -61,6 +61,11 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->post('[/]', \UsuarioController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     // Ruta para el verbo GET
     $group->get('[/]', \UsuarioController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
+
+    // Subruta para el verbo POST (CSV)
+    $group->post('/csv[/]', \UsuarioController ::class . ':CargarDesdeCSV')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
+    // Subruta para el verbo GET (CSV)
+    $group->get('/csv[/]', \UsuarioController ::class . ':DescargarTodosCSV');//->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 // Defino las rutas dentro del grupo '/productos'

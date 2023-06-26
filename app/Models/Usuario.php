@@ -35,6 +35,18 @@ class Usuario
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Usuario');
     }
 
+    public static function obtenerTodosCSV()
+    {
+        $usuarios = Usuario::obtenerTodos();
+
+        $csvData = '';
+        foreach ($usuarios as $usuario) {
+            $csvData .= $usuario->id . ',' . $usuario->usuario . ',' . $usuario->rol . "\n";
+        }
+
+        return $csvData;
+    }
+
     private function usuarioExiste($usuario)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
