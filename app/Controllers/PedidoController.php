@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 require_once './models/Pedido.php';
 require_once './interfaces/IApiUsable.php';
 
@@ -9,14 +12,12 @@ class PedidoController extends Pedido implements IApiUsable
         $parametros = $request->getParsedBody();
 
         $nombreCliente = $parametros['nombreCliente'];
+        $producto = $parametros['producto'];
         $estado = $parametros['estado'];
         $tiempoEstimado = $parametros['tiempoEstimado'];
         $uploadedFiles = $request->getUploadedFiles();
         $foto = $uploadedFiles['foto'];
         $nombreArchivo = "/".date('Y-m-d H-i-s')."hs. ".$nombreCliente.".jpg";
-
-        var_dump($nombreArchivo);
-
 
         $directorioDestino = '../ImagenesPedidos';
 
@@ -24,12 +25,11 @@ class PedidoController extends Pedido implements IApiUsable
             mkdir($directorioDestino, 0777, true);
         }
         $rutaDestino = $directorioDestino . $nombreArchivo;
-
-        var_dump($rutaDestino);
         $foto->moveTo($rutaDestino);
 
         $pedido = new Pedido();
         $pedido->nombreCliente=$nombreCliente;
+        $pedido->producto=$producto;
         $pedido->estado=$estado;
         $pedido->tiempoEstimado=$tiempoEstimado;
         $pedido->foto=$rutaDestino;
@@ -51,11 +51,21 @@ class PedidoController extends Pedido implements IApiUsable
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    public function TraerTragos($request, $response, $args)
+    public function ModificarUno($request, $response, $args)
     {
-        $lista = Pedido::obtenerTragos();
-        $payload = json_encode(array("listaTragos" => $lista));
+        $parametros = $request->getParsedBody();
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        $estado = $parametros['estado'];
 
+        if (Pedido::ActualizarEstado($id, $estado))
+        {
+            $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
+        }
+        else 
+        {
+            $payload = json_encode(array("mensaje" => "No se pudo actualizar el estado del pedido."));
+        }
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -66,20 +76,6 @@ class PedidoController extends Pedido implements IApiUsable
     //     $usr = $args['pedido'];
     //     $pedido = Pedido::obtenerPedido($usr);
     //     $payload = json_encode($pedido);
-
-    //     $response->getBody()->write($payload);
-    //     return $response
-    //       ->withHeader('Content-Type', 'application/json');
-    // }
-    
-    // public function ModificarUno($request, $response, $args)
-    // {
-    //     $parametros = $request->getParsedBody();
-
-    //     $nombre = $parametros['nombre'];
-    //     Pedido::modificarPedido($nombre);
-
-    //     $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
 
     //     $response->getBody()->write($payload);
     //     return $response

@@ -16,9 +16,15 @@ class ProductoController extends Producto implements IApiUsable
         $producto->nombre = $nombre;
         $producto->precio = $precio;
         $producto->tipo = $tipo;
-        $producto->crearProducto();
 
-        $payload = json_encode(array("mensaje" => "Producto creado con exito"));
+        if ($producto->crearProducto()!==false)
+        {
+            $payload = json_encode(array("mensaje" => "Producto creado con exito"));
+        }
+        else
+        {
+            $payload = json_encode(array("mensaje" => "El producto no pudo darse de alta porque ya existe."));
+        }
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');

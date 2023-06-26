@@ -13,6 +13,10 @@ class Producto
 
     public function crearProducto()
     {
+        if ($this->productoExiste($this->nombre)) {
+            return false;
+        }
+
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productos (nombre, precio, tipo) VALUES (:nombre,:precio,:tipo)');
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
@@ -31,5 +35,15 @@ class Producto
 
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
+    }
+
+    private function productoExiste($nombre)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT COUNT(*) FROM productos WHERE nombre = :nombre");
+        $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchColumn() > 0;
     }
 }

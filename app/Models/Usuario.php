@@ -1,5 +1,8 @@
 <?php
 
+use Slim\Exception\HttpResponseException;
+
+
 class Usuario
 {
     public $id;
@@ -9,6 +12,10 @@ class Usuario
 
     public function crearUsuario()
     {
+        if ($this->usuarioExiste($this->usuario)) {
+            return false;
+        }
+
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave, rol) VALUES (:usuario, :clave, :rol)");
         $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_STR);
@@ -26,6 +33,16 @@ class Usuario
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Usuario');
+    }
+
+    private function usuarioExiste($usuario)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT COUNT(*) FROM usuarios WHERE usuario = :usuario");
+        $consulta->bindValue(':usuario', $usuario, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $consulta->fetchColumn() > 0;
     }
 
     // public static function obtenerUsuario($usuario)
