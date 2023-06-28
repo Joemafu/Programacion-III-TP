@@ -107,4 +107,13 @@ $app->run();
 // composer update
 // php -S localhost:666
 
+// Para terminar: 
+/*
+
+  asociar las tareas y vistas
+
+  conectar mesas y pedidos
+
+*/
+
 ?>
