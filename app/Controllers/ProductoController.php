@@ -11,11 +11,13 @@ class ProductoController extends Producto implements IApiUsable
         $nombre = $parametros['nombre'];
         $precio = $parametros['precio'];
         $tipo = $parametros['tipo'];
+        $contadorVendidos = 0;
 
         $producto = new Producto();
         $producto->nombre = $nombre;
         $producto->precio = $precio;
         $producto->tipo = $tipo;
+        $producto->contadorVendidos = $contadorVendidos;
 
         if ($producto->crearProducto()!==false)
         {
@@ -33,7 +35,7 @@ class ProductoController extends Producto implements IApiUsable
     public function TraerTodos($request, $response, $args)
     {
         $lista = Producto::obtenerTodos();
-        $payload = json_encode(array("listaProductos" => $lista));
+        $payload = json_encode(array("Lista de productos" => $lista));
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');

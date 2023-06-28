@@ -4,10 +4,19 @@ class Pedido
 {
     public $id;
     public $nombreCliente;
-    public $producto;
     public $estado;
     public $tiempoEstimado;
     public $foto;
+    public $codigoSeguimiento;
+    public $idMesa;
+    public $puntuacionMesa;
+    public $puntuacionRestaurante;
+    public $puntuacionMozo;
+    public $puntuacionCocinero;
+    public $resenia;
+    public $valorTotal;
+    public $fecha;
+    public $entregadoATiempo;
 
     public function __construct()
     {
@@ -19,7 +28,7 @@ class Pedido
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO pedidos (nombreCliente, producto, estado, tiempoEstimado, foto) VALUES (:nombreCliente, :producto, :estado, :tiempoEstimado, :foto)");
         $consulta->bindValue(':nombreCliente', $this->nombreCliente, PDO::PARAM_STR);
-        $consulta->bindValue(':producto', $this->producto, PDO::PARAM_STR);
+        //$consulta->bindValue(':producto', $this->producto, PDO::PARAM_STR);
         $consulta->bindValue(':estado', $this->estado, PDO::PARAM_STR);
         $consulta->bindValue(':tiempoEstimado', $this->tiempoEstimado, PDO::PARAM_INT);
         $consulta->bindvalue(':foto', $this->foto, PDO::PARAM_STR);
@@ -31,7 +40,7 @@ class Pedido
     public static function obtenerTodos()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, nombreCliente, producto, estado, tiempoEstimado, foto FROM pedidos");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');

@@ -11,6 +11,7 @@ class MesaController extends Mesa implements IApiUsable
 
         $mesa = new Mesa();
         $mesa->estado=$estado;
+        $mesa->contadorClientes=0;
         $mesa->crearMesa();
 
         $payload = json_encode(array("mensaje" => "Mesa creada con exito"));
@@ -22,7 +23,7 @@ class MesaController extends Mesa implements IApiUsable
     public function TraerTodos($request, $response, $args)
     {
         $lista = Mesa::obtenerTodos();
-        $payload = json_encode(array("listaMesas" => $lista));
+        $payload = json_encode(array("Lista de mesas" => $lista));
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');

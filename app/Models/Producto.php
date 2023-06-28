@@ -5,6 +5,8 @@ class Producto
     public $nombre;
     public $precio;
     public $tipo;
+    public $contadorVendidos;
+    
 
     public function __construct()
     {
@@ -18,10 +20,11 @@ class Producto
         }
 
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productos (nombre, precio, tipo) VALUES (:nombre,:precio,:tipo)');
+        $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productos (nombre, precio, tipo, contadorVendidos) VALUES (:nombre,:precio,:tipo,:contadorVendidos)');
         $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
         $consulta->bindValue(':tipo', $this->tipo, PDO::PARAM_STR);
+        $consulta->bindValue(':contadorVendidos', $this->contadorVendidos, PDO::PARAM_INT);
         $consulta->execute();
 
         return $objAccesoDatos->obtenerUltimoId();
@@ -30,7 +33,7 @@ class Producto
     public static function obtenerTodos()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, nombre, precio, tipo FROM productos");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM productos");
         $consulta->execute();
 
 

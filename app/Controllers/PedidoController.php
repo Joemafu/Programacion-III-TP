@@ -12,7 +12,6 @@ class PedidoController extends Pedido implements IApiUsable
         $parametros = $request->getParsedBody();
 
         $nombreCliente = $parametros['nombreCliente'];
-        $producto = $parametros['producto'];
         $estado = $parametros['estado'];
         $tiempoEstimado = $parametros['tiempoEstimado'];
         $uploadedFiles = $request->getUploadedFiles();
@@ -29,7 +28,6 @@ class PedidoController extends Pedido implements IApiUsable
 
         $pedido = new Pedido();
         $pedido->nombreCliente=$nombreCliente;
-        $pedido->producto=$producto;
         $pedido->estado=$estado;
         $pedido->tiempoEstimado=$tiempoEstimado;
         $pedido->foto=$rutaDestino;
@@ -45,7 +43,7 @@ class PedidoController extends Pedido implements IApiUsable
     public function TraerTodos($request, $response, $args)
     {
         $lista = Pedido::obtenerTodos();
-        $payload = json_encode(array("listaPedidos" => $lista));
+        $payload = json_encode(array("Lista de pedidos" => $lista));
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');

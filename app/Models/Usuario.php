@@ -2,13 +2,14 @@
 
 use Slim\Exception\HttpResponseException;
 
-
 class Usuario
 {
     public $id;
     public $usuario;
     public $clave;
     public $rol;
+    public $suspendido;
+    public $contadorOperaciones;
 
     public function crearUsuario()
     {
@@ -17,10 +18,12 @@ class Usuario
         }
 
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave, rol) VALUES (:usuario, :clave, :rol)");
+        $consulta = $objAccesoDatos->prepararConsulta("INSERT INTO usuarios (usuario, clave, rol, suspendido, contadorOperaciones) VALUES (:usuario, :clave, :rol, :suspendido, :contadorOperaciones)");
         $consulta->bindValue(':usuario', $this->usuario, PDO::PARAM_STR);
         $consulta->bindValue(':clave', $this->clave, PDO::PARAM_STR);
         $consulta->bindValue(':rol', $this->rol, PDO::PARAM_STR);
+        $consulta->bindValue(':suspendido', $this->suspendido, PDO::PARAM_BOOL);
+        $consulta->bindValue(':contadorOperaciones', $this->contadorOperaciones, PDO::PARAM_INT);
         $consulta->execute();
 
         return $objAccesoDatos->obtenerUltimoId();
@@ -29,7 +32,7 @@ class Usuario
     public static function obtenerTodos()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, usuario, rol FROM usuarios");
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT id, usuario, rol, suspendido, contadorOperaciones FROM usuarios");
         $consulta->execute();
 
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Usuario');
@@ -39,9 +42,9 @@ class Usuario
     {
         $usuarios = Usuario::obtenerTodos();
 
-        $csvData = '';
+        $csvData = "id,usuario,rol,suspendido,contadorOperaciones\n";
         foreach ($usuarios as $usuario) {
-            $csvData .= $usuario->id . ',' . $usuario->usuario . ',' . $usuario->rol . "\n";
+            $csvData .= $usuario->id . ',' . $usuario->usuario . ',' . $usuario->rol . ',' . $usuario->suspendido . ',' . $usuario->contadorOperaciones . "\n";
         }
 
         return $csvData;

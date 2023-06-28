@@ -14,11 +14,16 @@ class UsuarioController extends Usuario implements IApiUsable
         $usuario = $parametros['usuario'];
         $clave = $parametros['clave'];
         $rol = $parametros['rol'];
+        $suspendido = false;
+        $contadorOperaciones = 0;
 
         $usr = new Usuario();
         $usr->usuario=$usuario;
         $usr->clave=$clave;
         $usr->rol=$rol;
+        $usr->suspendido=$suspendido;
+        $usr->contadorOperaciones=$contadorOperaciones;
+
         if ($usr->crearUsuario()!==false)
         {
             $payload = json_encode(array("mensaje" => "Usuario creado con exito"));
@@ -35,7 +40,7 @@ class UsuarioController extends Usuario implements IApiUsable
     public function TraerTodos($request, $response, $args)
     {
         $lista = Usuario::obtenerTodos();
-        $payload = json_encode(array("listaUsuarios" => $lista));
+        $payload = json_encode(array("Lista de usuarios" => $lista));
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
@@ -67,20 +72,33 @@ class UsuarioController extends Usuario implements IApiUsable
             {
                 $lineas = explode(PHP_EOL, $contenidoCsv);
 
-                foreach ($lineas as $linea) {
+                $ignorarPrimeraLinea = true;
+
+                foreach ($lineas as $linea) 
+                {
                     $linea = trim($linea);
 
-                    if (!empty($linea)) {
+                    if (!empty($linea)) 
+                    {
+
+                        if ($ignorarPrimeraLinea) {
+                            $ignorarPrimeraLinea = false;
+                            continue;
+                        }
                         $campos = explode(",", $linea);
 
                         $usuario = $campos[0];
                         $clave = $campos[1];
                         $rol = $campos[2];
+                        $suspendido = $campos[3];
+                        $contadorOperaciones = $campos[4];
 
                         $usr = new Usuario();
                         $usr->usuario=$usuario;
                         $usr->clave=$clave;
                         $usr->rol=$rol;
+                        $usr->suspendido=$suspendido;
+                        $usr->contadorOperaciones=$contadorOperaciones;
 
                         if($usr->crearUsuario()===false)
                         {
@@ -92,13 +110,13 @@ class UsuarioController extends Usuario implements IApiUsable
                         }
                     }
                 }
+                
+                $response->withStatus(200)->getBody()->write("Carga desde CSV completada, se cargaron ".$nuevos." usuarios nuevos. Se omitieron ".$repetidos." usuarios ya existentes.");
             }
             else
             {
                 $response->withStatus(400)->getBody()->write("Error el archivo CSV está vacío");
             }
-
-            $response->withStatus(200)->getBody()->write("Carga desde CSV completada, se cargaron ".$nuevos." usuarios nuevos. Se omitieron ".$repetidos." usuarios ya existentes.");
         } 
         else 
         {

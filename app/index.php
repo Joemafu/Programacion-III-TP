@@ -74,33 +74,33 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \ProductoController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     // Ruta para el verbo GET
     $group->get('[/]', \ProductoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
-  });
+});
   
-  // Defino las rutas dentro del grupo '/mesas'
-  $app->group('/mesas', function (RouteCollectorProxy $group) {
-    // Ruta para el verbo POST
-    $group->post('[/]', \MesaController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
-    // Ruta para el verbo GET
-    $group->get('[/]', \MesaController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
-  });
+// Defino las rutas dentro del grupo '/mesas'
+$app->group('/mesas', function (RouteCollectorProxy $group) {
+  // Ruta para el verbo POST
+  $group->post('[/]', \MesaController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
+  // Ruta para el verbo GET
+  $group->get('[/]', \MesaController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
+});
   
-  // Defino las rutas dentro del grupo '/pedidos'
-  $app->group('/pedidos', function (RouteCollectorProxy $group) {
-    // Ruta para el verbo POST
-    $group->post('[/]', \PedidoController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
-    // Ruta para el verbo GET
-    $group->get('[/]', \PedidoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
-    // Ruta para el verbo PUT
-    $group->put('[/]', \PedidoController ::class . ':ModificarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
-  });
+// Defino las rutas dentro del grupo '/pedidos'
+$app->group('/pedidos', function (RouteCollectorProxy $group) {
+  // Ruta para el verbo POST
+  $group->post('[/]', \PedidoController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
+  // Ruta para el verbo GET
+  $group->get('[/]', \PedidoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
+  // Ruta para el verbo PUT
+  $group->put('[/]', \PedidoController ::class . ':ModificarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
+});
 
 
-  $app->post('/login', function ($request, $response, $args) {
-    return $response;
-  })
-  ->add(new JwtTokenGeneratorMiddleware("UTNFRA2023#"))
-  ->add(new LoginMiddleware())
-  ;
+$app->post('/login', function ($request, $response, $args) {
+  return $response;
+})
+->add(new JwtTokenGeneratorMiddleware("UTNFRA2023#"))
+->add(new LoginMiddleware())
+;
 
 $app->run();
 
@@ -115,5 +115,8 @@ $app->run();
   conectar mesas y pedidos
 
 */
+
+
+// Socio token Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A
 
 ?>
