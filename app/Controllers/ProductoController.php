@@ -1,6 +1,6 @@
 <?php
-require_once './models/Producto.php';
-require_once './interfaces/IApiUsable.php';
+require_once './Models/Producto.php';
+require_once './Interfaces/IApiUsable.php';
 
 class ProductoController extends Producto implements IApiUsable
 {

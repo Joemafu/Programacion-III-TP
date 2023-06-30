@@ -1,7 +1,7 @@
 <?php
 
-require_once './models/Usuario.php';
-require_once './interfaces/IApiUsable.php';
+require_once './Models/Usuario.php';
+require_once './Interfaces/IApiUsable.php';
 
 use Psr\Http\Message\UploadedFileInterface;
 

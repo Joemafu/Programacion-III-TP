@@ -2,8 +2,8 @@
 
 use function PHPSTORM_META\type;
 
-require_once './models/Pedido.php';
-require_once './interfaces/IApiUsable.php';
+require_once './Models/Pedido.php';
+require_once './Interfaces/IApiUsable.php';
 
 class PedidoController extends Pedido implements IApiUsable
 {
