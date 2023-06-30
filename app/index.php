@@ -37,10 +37,10 @@ use App\Middlewares\JwtTokenValidatorMiddleware;
 
 // Requerir el archivo autoload.php para cargar las dependencias
 require __DIR__ . '/../vendor/autoload.php';
-require_once './controllers/MesaController.php';
-require_once './controllers/PedidoController.php';
-require_once './controllers/ProductoController.php';
-require_once './controllers/UsuarioController.php';
+require_once './Controllers/MesaController.php';
+require_once './Controllers/PedidoController.php';
+require_once './Controllers/ProductoController.php';
+require_once './Controllers/UsuarioController.php';
 require_once './db/AccesoDatos.php';
 require_once './Middlewares/LoginMiddleware.php';
 require_once './Middlewares/JwtTokenGeneratorMiddleware.php';
