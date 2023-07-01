@@ -15,7 +15,7 @@ class Producto
 
     public function crearProducto()
     {
-        if ($this->productoExiste($this->nombre)) {
+        if ($this->productoExisteByName()) {
             return false;
         }
 
@@ -40,13 +40,71 @@ class Producto
         return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
     }
 
-    private function productoExiste($nombre)
+    private function productoExisteByName()
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
         $consulta = $objAccesoDatos->prepararConsulta("SELECT COUNT(*) FROM productos WHERE nombre = :nombre");
-        $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
+        $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
         $consulta->execute();
 
         return $consulta->fetchColumn() > 0;
+    }
+
+    public static function productoExisteById($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT COUNT(*) FROM productos WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        return $consulta->fetchColumn() > 0;
+    }
+
+    public static function productosExisten($arrayProductos)
+    {
+        foreach ($arrayProductos as $producto)
+        {
+            if(!Producto::productoExisteById($producto['idProducto']))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static function getRolById($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT tipo FROM productos WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        $tipo=$consulta->fetchColumn();
+
+        switch($tipo)
+        {
+            case ("trago"):
+            {
+                return "bartender";
+            }
+            case ("cerveza"):
+            {
+                return "cervecero";
+            }
+            default:
+            {
+                return "cocinero";
+            }
+        }
+    }
+
+    public static function getPrecioById($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT precio FROM productos WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        return (double)$consulta->fetchColumn();
     }
 }

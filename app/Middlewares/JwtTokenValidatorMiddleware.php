@@ -58,6 +58,9 @@ class JwtTokenValidatorMiddleware
             return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
         }
 
+        $request = $request->withHeader("Rol",$rolAutorizado);
+
+
         $response = $handler->handle($request);
         return $response;
     }

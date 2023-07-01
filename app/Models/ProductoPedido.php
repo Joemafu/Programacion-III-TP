@@ -18,21 +18,27 @@ class ProductoPedido
         
     }
 
-    // public function crearProducto()
-    // {
-    //     if ($this->productoExiste($this->nombre)) {
-    //         return false;
-    //     }
+    public function crearProductoPedido()
+    {
+        if (!Producto::productoExisteById($this->idProducto)) {
+            return false;
+        }
 
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productos (nombre, precio, tipo) VALUES (:nombre,:precio,:tipo)');
-    //     $consulta->bindValue(':nombre', $this->nombre, PDO::PARAM_STR);
-    //     $consulta->bindValue(':precio', $this->precio, PDO::PARAM_INT);
-    //     $consulta->bindValue(':tipo', $this->tipo, PDO::PARAM_STR);
-    //     $consulta->execute();
+        $this->rolPreparador = Producto::getRolById($this->idProducto);
 
-    //     return $objAccesoDatos->obtenerUltimoId();
-    // }
+        $this->valorSubtotal = (int)$this->cantidad * (double)Producto::getPrecioById($this->idProducto);
+
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productopedidos (idPedido, idProducto, cantidad, rolPreparador, valorSubtotal) VALUES (:idPedido,:idProducto,:cantidad, :rolPreparador, :valorSubtotal)');
+        $consulta->bindValue(':idPedido', $this->idPedido, PDO::PARAM_STR);
+        $consulta->bindValue(':idProducto', $this->idProducto, PDO::PARAM_INT);
+        $consulta->bindValue(':cantidad', $this->cantidad, PDO::PARAM_STR);
+        $consulta->bindValue(':rolPreparador', $this->rolPreparador, PDO::PARAM_STR);
+        $consulta->bindValue(':valorSubtotal', $this->valorSubtotal, PDO::PARAM_STR);
+        $consulta->execute();
+
+        return $objAccesoDatos->obtenerUltimoId();
+    }
 
     // public static function obtenerTodos()
     // {
@@ -42,15 +48,5 @@ class ProductoPedido
 
 
     //     return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
-    // }
-
-    // private function productoExiste($nombre)
-    // {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta("SELECT COUNT(*) FROM productos WHERE nombre = :nombre");
-    //     $consulta->bindValue(':nombre', $nombre, PDO::PARAM_STR);
-    //     $consulta->execute();
-
-    //     return $consulta->fetchColumn() > 0;
     // }
 }
