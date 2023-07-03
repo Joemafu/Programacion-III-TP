@@ -59,7 +59,8 @@ class JwtTokenValidatorMiddleware
         }
 
         $request = $request->withHeader("Rol",$rolAutorizado);
-
+        
+        $request = $request->withHeader("Id",$decodedToken->id);
 
         $response = $handler->handle($request);
         return $response;

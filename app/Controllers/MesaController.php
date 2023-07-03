@@ -28,4 +28,22 @@ class MesaController extends Mesa implements IApiUsable
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function CerrarMesa($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        
+        if(Mesa::ActualizarEstado($id, "cerrado"))
+        {
+            $payload = json_encode(array("OK" => "Mesa ID ".$id." cerrada."));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "Mesa ID ".$id." no existe o ya se encuentra cerrada."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }

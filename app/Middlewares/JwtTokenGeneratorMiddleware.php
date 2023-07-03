@@ -20,9 +20,11 @@ class JwtTokenGeneratorMiddleware
         $data = $request->getParsedBody();
 
         $rol = $data['rol'] ?? '';
+        $id = $data['id'] ?? '';
 
         $payload = [
             'rol' => $rol,
+            'id' => $id
         ];
 
         try {

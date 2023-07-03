@@ -40,13 +40,106 @@ class ProductoPedido
         return $objAccesoDatos->obtenerUltimoId();
     }
 
-    // public static function obtenerTodos()
-    // {
-    //     $objAccesoDatos = AccesoDatos::obtenerInstancia();
-    //     $consulta = $objAccesoDatos->prepararConsulta("SELECT id, nombre, precio, tipo FROM productos");
-    //     $consulta->execute();
+    public static function SetearAtributos($id, $estado, $tiempoEstimado, $rol, $idEmpleado) : bool {
+
+        try {
+            if(ProductoPedido::productoPedidoExiste($id))
+            {
+                $objAccesoDatos = AccesoDatos::obtenerInstancia();
+                $consulta = $objAccesoDatos->prepararConsulta('UPDATE productopedidos SET estado = :estado, tiempoEstimado = :tiempoEstimado, idEmpleado = :idEmpleado WHERE id = :id AND rolPreparador = :rolPreparador');
+                $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+                $consulta->bindValue(':estado', $estado, PDO::PARAM_STR);
+                $consulta->bindValue(':tiempoEstimado', $tiempoEstimado, PDO::PARAM_INT);
+                $consulta->bindValue(':rolPreparador', $rol, PDO::PARAM_STR);
+                $consulta->bindValue(':idEmpleado', $idEmpleado, PDO::PARAM_INT);
+
+                Pedido::ActualizarTiempoEstimado($tiempoEstimado, $id);
+                
+                $consulta->execute();
+                if ($consulta->rowCount() === 0) {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }            
+        } catch (Exception $e)
+        {
+            echo $e->getMessage();
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function ActualizarEstado($idPedido, $estado) : bool {
+
+        try {
+            $objAccesoDatos = AccesoDatos::obtenerInstancia();
+            $consulta = $objAccesoDatos->prepararConsulta('UPDATE productopedidos SET estado = :estado WHERE idPedido = :idPedido');
+            $consulta->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
+            $consulta->bindValue(':estado', $estado, PDO::PARAM_STR);
+            
+            $consulta->execute();
+            if ($consulta->rowCount() === 0) {
+                return false;
+            }            
+        } 
+        catch (Exception $e)
+        {
+            echo $e->getMessage();
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function setSeEntregoATiempo($idPedido,$entregadoATiempo)
+    {
+        try {
+            $objAccesoDatos = AccesoDatos::obtenerInstancia();
+            $consulta = $objAccesoDatos->prepararConsulta('UPDATE productopedidos SET entregadoATiempo = :entregadoATiempo WHERE idPedido = :idPedido');
+            $consulta->bindValue(':entregadoATiempo', $entregadoATiempo, PDO::PARAM_STR);
+            $consulta->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
+            $consulta->execute();
+         
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static function productoPedidoExiste($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT COUNT(*) FROM productopedidos WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        return $consulta->fetchColumn() > 0;
+    }
 
 
-    //     return $consulta->fetchAll(PDO::FETCH_CLASS, 'Producto');
-    // }
+
+
+
+
+
+
+
+
+
+    public static function CalcularTiempoEstimado($idPedido)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT MAX(tiempoEstimado) AS tiempoMaximo FROM productopedidos WHERE idPedido = :idPedido");
+        $consulta->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
+        $consulta->execute();
+
+        $resultado = $consulta->fetchColumn();
+
+        return $resultado;
+    }
 }

@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\type;
-
 require_once './Models/Pedido.php';
 require_once './Models/ProductoPedido.php';
 require_once './Interfaces/IApiUsable.php';
@@ -10,12 +8,13 @@ class PedidoController extends Pedido implements IApiUsable
 {
     public function CargarUno($request, $response, $args)
     {
-        $productoInexistente=false;
         $parametros = $request->getParsedBody();
 
         $idMesa = $parametros['idMesa'];
         $nombreCliente = $parametros['nombreCliente'];
         $productosPedidos = $parametros['productos'];
+
+        $idEmpleado = $request->getHeaderLine('Id');
 
         if(Mesa::GetEstado($idMesa)!=="disponible")
         {
@@ -26,6 +25,7 @@ class PedidoController extends Pedido implements IApiUsable
             $pedido = new Pedido();
             $pedido->idMesa = $idMesa;
             $pedido->nombreCliente = $nombreCliente;
+            $pedido->tiempoEstimado = 0;
             
             $idPedido = $pedido->crearPedido();
 
@@ -39,7 +39,14 @@ class PedidoController extends Pedido implements IApiUsable
                 $productoPedido->cantidad = $producto['cantidad'];
 
                 $productoPedido->crearProductoPedido();
+
+                Producto::incrementarProductoVendido($productoPedido->idProducto, $productoPedido->cantidad);
             }
+
+            Pedido::CalcularTotalPedido($idPedido);
+
+            Usuario::incrementarOperaciones($idEmpleado);
+
             $payload = json_encode(array("Pedido cargado, codigo de seguimiento: " => $pedido->codigoSeguimiento));
         }
         else
@@ -54,8 +61,9 @@ class PedidoController extends Pedido implements IApiUsable
     public function TraerTodos($request, $response, $args)
     {
         $rol = $request->getHeaderLine('Rol');
+        $id = $request->getHeaderLine('Id');
 
-        $lista = Pedido::obtenerTodos($rol);
+        $lista = Pedido::obtenerTodos($rol, $id);
         $payload = json_encode(array("Lista de pedidos" => $lista));
 
         $response->getBody()->write($payload);
@@ -64,7 +72,6 @@ class PedidoController extends Pedido implements IApiUsable
 
     public function ModificarUno($request, $response, $args)
     {
-        $parametros = $request->getParsedBody();
         $parametros = $request->getParsedBody();
         $id = $parametros['id'];
         $estado = $parametros['estado'];
@@ -80,7 +87,6 @@ class PedidoController extends Pedido implements IApiUsable
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
-
 
     public function SubirFoto($request, $response, $args)
     {
@@ -102,8 +108,71 @@ class PedidoController extends Pedido implements IApiUsable
         return $response->withHeader('Content-Type', 'application/json');    
     }
 
+    public function GetTiempoEstimado($request, $response, $args)
+    {
+        $parametros = $request->getQueryParams();
 
+        $codigoSeguimiento = $parametros['nroPedido'];
 
+        $resultado = Pedido::obtenerTiempoEstimado($codigoSeguimiento);
 
+        if ($resultado!==false)
+        {
+            $payload = json_encode(array("Tiempo estimado" => $resultado." minutos."));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "El codigo de seguimiento no existe."));
+        }
+        
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');   
+    }
 
+    public function ServirPedido($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        $entregadoATiempo = $parametros['entregadoATiempo'];
+
+        if(Pedido::pedidoExiste($id))
+        {
+            Pedido::ActualizarEstado($id,"servido");
+            Pedido::setSeEntregoATiempo($id, $entregadoATiempo);
+            ProductoPedido::ActualizarEstado($id,"servido");
+            $idMesa = Pedido::getMesaByIdPediddo($id);            
+            Mesa::ActualizarEstado($idMesa, "con cliente comiendo");
+            $payload = json_encode(array("Ok" => "Se sirvió el pedido ID ".$id));
+        }
+        else{
+            $payload = json_encode(array("Error" => "El pedido ID ".$id. " no existe."));
+        }
+        
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function CobrarPedido($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+
+        if(Pedido::pedidoExiste($id))
+        {
+            $idMesa = Pedido::getMesaByIdPediddo($id);
+
+            Mesa::incrementarContadorClientes($idMesa);
+            Mesa::ActualizarEstado($idMesa, "disponible");
+            Pedido::ActualizarEstado($id, "cobrado");
+
+            $payload = json_encode(array("Ok" => "Se actualizaron los estados correspondientes."));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "El pedido ID ".$id. " no existe."));
+        }
+        
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }

@@ -33,7 +33,19 @@ class Mesa
         $consulta->bindValue(':estado', $estado, PDO::PARAM_STR);
         $consulta->bindValue(':id', $id, PDO::PARAM_INT);
         $consulta->execute();
+
+        $filasAfectadas = $consulta->rowCount();
+
+        return $filasAfectadas > 0;
     } 
+
+    public static function incrementarContadorClientes($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta('UPDATE mesas SET contadorClientes = contadorClientes + 1 WHERE id = :id');
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+    }
 
     public static function GetEstado($id)
     {

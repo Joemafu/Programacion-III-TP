@@ -59,6 +59,14 @@ class Usuario
 
         return $consulta->fetchColumn() > 0;
     }
+
+    public static function incrementarOperaciones($idEmpleado)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta('UPDATE usuarios SET contadorOperaciones = contadorOperaciones + 1 WHERE id = :idEmpleado');
+        $consulta->bindValue(':idEmpleado', $idEmpleado, PDO::PARAM_INT);
+        $consulta->execute();
+    }
 }
 
 ?>

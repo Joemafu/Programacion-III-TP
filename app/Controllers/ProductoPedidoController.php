@@ -5,68 +5,29 @@ use function PHPSTORM_META\type;
 require_once './Models/ProductoPedido.php';
 require_once './Interfaces/IApiUsable.php';
 
-class ProductoPedidoController //extends Pedido implements IApiUsable
+class ProductoPedidoController
 {    
-    // public function CargarUno($request, $response, $args)
-    // {
-    //     $parametros = $request->getParsedBody();
+    public function ModificarUno($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        $estado = $parametros['estado'];
+        $tiempoEstimado = $parametros['tiempoEstimado'];
 
-    //     $nombreCliente = $parametros['nombreCliente'];
-    //     $producto = $parametros['producto'];
-    //     $estado = $parametros['estado'];
-    //     $tiempoEstimado = $parametros['tiempoEstimado'];
-    //     $uploadedFiles = $request->getUploadedFiles();
-    //     $foto = $uploadedFiles['foto'];
-    //     $nombreArchivo = "/".date('Y-m-d H-i-s')."hs. ".$nombreCliente.".jpg";
+        $rol = $request->getHeaderLine('Rol');
+        $idEmpleado = $request->getHeaderLine('Id');
 
-    //     $directorioDestino = '../ImagenesPedidos';
+        if (ProductoPedido::SetearAtributos($id, $estado, $tiempoEstimado, $rol, $idEmpleado))
+        {
+            Usuario::incrementarOperaciones($idEmpleado);
+            $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
+        }
+        else 
+        {
+            $payload = json_encode(array("mensaje" => "No se pudo actualizar el estado del pedido."));
+        }
 
-    //     if (!is_dir($directorioDestino)) {
-    //         mkdir($directorioDestino, 0777, true);
-    //     }
-    //     $rutaDestino = $directorioDestino . $nombreArchivo;
-    //     $foto->moveTo($rutaDestino);
-
-    //     $pedido = new Pedido();
-    //     $pedido->nombreCliente=$nombreCliente;
-    //     $pedido->producto=$producto;
-    //     $pedido->estado=$estado;
-    //     $pedido->tiempoEstimado=$tiempoEstimado;
-    //     $pedido->foto=$rutaDestino;
-        
-    //     $pedido->crearPedido();
-
-    //     $payload = json_encode(array("mensaje" => "Pedido creado con exito"));
-
-    //     $response->getBody()->write($payload);
-    //     return $response->withHeader('Content-Type', 'application/json');
-    // }
-
-    // public function TraerTodos($request, $response, $args)
-    // {
-    //     $lista = Pedido::obtenerTodos();
-    //     $payload = json_encode(array("listaPedidos" => $lista));
-
-    //     $response->getBody()->write($payload);
-    //     return $response->withHeader('Content-Type', 'application/json');
-    // }
-
-    // public function ModificarUno($request, $response, $args)
-    // {
-    //     $parametros = $request->getParsedBody();
-    //     $parametros = $request->getParsedBody();
-    //     $id = $parametros['id'];
-    //     $estado = $parametros['estado'];
-
-    //     if (Pedido::ActualizarEstado($id, $estado))
-    //     {
-    //         $payload = json_encode(array("mensaje" => "Pedido modificado con exito"));
-    //     }
-    //     else 
-    //     {
-    //         $payload = json_encode(array("mensaje" => "No se pudo actualizar el estado del pedido."));
-    //     }
-    //     $response->getBody()->write($payload);
-    //     return $response->withHeader('Content-Type', 'application/json');
-    // }
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }

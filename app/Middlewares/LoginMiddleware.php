@@ -14,11 +14,17 @@ class LoginMiddleware
         $usuario = $data['usuario'] ?? '';
         $clave = $data['clave'] ?? '';
 
-        $rol = LoginMiddleware::validarCredenciales($usuario, $clave);
+        $resultado  = LoginMiddleware::validarCredenciales($usuario, $clave);
     
-        if ($rol!==false) {
+        if ($resultado !==false) {
 
-            $request = $request->withParsedBody(['rol'=> $rol]);
+            $rol = $resultado['rol'];
+            $id = $resultado['id'];
+
+            $request = $request->withParsedBody([
+                'rol' => $rol,
+                'id' => $id
+            ]);
             $response = $handler->handle($request);
     
             return $response;
@@ -48,7 +54,7 @@ class LoginMiddleware
 
             if ($usuario)
             {
-                return $usuario['rol'];
+                return $usuario;
             }
             else{
                 return false;

@@ -107,4 +107,13 @@ class Producto
 
         return (double)$consulta->fetchColumn();
     }
+
+    public static function incrementarProductoVendido($id, $cantidad)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta('UPDATE productos SET contadorVendidos = contadorVendidos + :cantidad WHERE id = :id');
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->bindValue(':cantidad', $cantidad, PDO::PARAM_INT);
+        $consulta->execute();
+    }
 }
