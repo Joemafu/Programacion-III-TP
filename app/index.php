@@ -71,13 +71,8 @@ $app->run();
 // <?php echo `whoami`; 
 
 /*
- * DE LAS MESAS:
- * 
- * ACTUALIZAR CONTADOR CLIENTES ++ ???
- * 
  * DE LOS PEDIDOS:
- * VER ANIDADOS LOS PRODUCTOS EN EL JSON PEDIDOS
- * 
+ * VER ANIDADOS LOS PRODUCTOS EN EL JSON PEDIDOS 
 */
 
 ?>
