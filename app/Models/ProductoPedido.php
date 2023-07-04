@@ -29,10 +29,11 @@ class ProductoPedido
         $this->valorSubtotal = (int)$this->cantidad * (double)Producto::getPrecioById($this->idProducto);
 
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productopedidos (idPedido, idProducto, cantidad, rolPreparador, valorSubtotal) VALUES (:idPedido,:idProducto,:cantidad, :rolPreparador, :valorSubtotal)');
+        $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productopedidos (idPedido, idProducto, cantidad, estado, rolPreparador, valorSubtotal) VALUES (:idPedido,:idProducto,:cantidad, :rolPreparador, :valorSubtotal)');
         $consulta->bindValue(':idPedido', $this->idPedido, PDO::PARAM_STR);
         $consulta->bindValue(':idProducto', $this->idProducto, PDO::PARAM_INT);
         $consulta->bindValue(':cantidad', $this->cantidad, PDO::PARAM_STR);
+        $consulta->bindValue(':estado', "asignando preparador", PDO::PARAM_STR);
         $consulta->bindValue(':rolPreparador', $this->rolPreparador, PDO::PARAM_STR);
         $consulta->bindValue(':valorSubtotal', $this->valorSubtotal, PDO::PARAM_STR);
         $consulta->execute();

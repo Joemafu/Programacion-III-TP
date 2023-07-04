@@ -47,7 +47,7 @@ class PedidoController extends Pedido implements IApiUsable
 
             Usuario::incrementarOperaciones($idEmpleado);
 
-            $payload = json_encode(array("Pedido cargado, codigo de seguimiento: " => $pedido->codigoSeguimiento));
+            $payload = json_encode(array("Pedido cargado, codigo de seguimiento: ".$pedido->codigoSeguimiento => "ID: ".$idPedido));
         }
         else
         {
@@ -88,6 +88,28 @@ class PedidoController extends Pedido implements IApiUsable
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    //Esta es para put pero llega dañada.
+    public function SubirFotoB64($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $idPedido = $parametros['idPedido'];
+        $foto = $parametros['foto'];
+
+       
+
+        if(Pedido::AgregarFotoB64($idPedido, $foto))
+        {
+            $payload = json_encode(array("Ok" => "Se agrego la foto al pedido ID ".$idPedido));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "El ID de pedido no existe."));
+        }    
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');    
+    }
+
+    // ESTA FUNCIONA CON POST
     public function SubirFoto($request, $response, $args)
     {
         $parametros = $request->getParsedBody();
@@ -140,6 +162,7 @@ class PedidoController extends Pedido implements IApiUsable
             Pedido::ActualizarEstado($id,"servido");
             Pedido::setSeEntregoATiempo($id, $entregadoATiempo);
             ProductoPedido::ActualizarEstado($id,"servido");
+            ProductoPedido::setSeEntregoATiempo($id,$entregadoATiempo);
             $idMesa = Pedido::getMesaByIdPediddo($id);            
             Mesa::ActualizarEstado($idMesa, "con cliente comiendo");
             $payload = json_encode(array("Ok" => "Se sirvió el pedido ID ".$id));
@@ -172,6 +195,56 @@ class PedidoController extends Pedido implements IApiUsable
             $payload = json_encode(array("Error" => "El pedido ID ".$id. " no existe."));
         }
         
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function CompletarEncuesta($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $codigoSeguimiento = $parametros['codigoSeguimiento'];
+        $puntuacionMesa = $parametros['puntuacionMesa'];
+        $puntuacionRestaurante = $parametros['puntuacionRestaurante'];
+        $puntuacionMozo = $parametros['puntuacionMozo'];
+        $puntuacionCocinero = $parametros['puntuacionCocinero'];
+        $resenia = $parametros['resenia'];
+
+        if(Pedido::pedidoExisteByCodigoSeguimiento($codigoSeguimiento))
+        {
+            if(Pedido::completarResenia($codigoSeguimiento, $puntuacionMesa, $puntuacionRestaurante, $puntuacionMozo, $puntuacionCocinero, $resenia))
+            {
+                $payload = json_encode(array("Ok" => "Se enviaron tus comentarios, gracias por participar!."));
+            }
+            else
+            {
+                $payload = json_encode(array("Error" => "La reseña enviada es igual a una previamente recibida."));
+            }
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "El codigo de seguimiento ".$codigoSeguimiento. " es inválido."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function GetMejoresComentarios($request, $response, $args)
+    {
+        $comentarios = Pedido::obtenerMejoresComentarios();
+
+        $payload = json_encode($comentarios);
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function GetEntregadosTarde($request, $response, $args)
+    {
+        $entregadosTarde = Pedido::obtenerEntregadosTarde();
+
+        $payload = json_encode($entregadosTarde);
+
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }

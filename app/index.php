@@ -9,6 +9,7 @@ use App\Middlewares\JwtTokenValidatorMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
 require_once './Controllers/MesaController.php';
+require_once './Controllers/PDFController.php';
 require_once './Controllers/PedidoController.php';
 require_once './Controllers/ProductoController.php';
 require_once './Controllers/ProductoPedidoController.php';
@@ -37,6 +38,7 @@ $app->group('/productos', function (RouteCollectorProxy $group) {
 $app->group('/mesas', function (RouteCollectorProxy $group) {
   $group->post('[/]', \MesaController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
   $group->get('[/]', \MesaController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
+  $group->get('/lamasusada', \MesaController ::class . ':TraerMesaMasUsada')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 $app->put('/cerrarmesa[/]', \MesaController ::class . ':CerrarMesa')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
@@ -46,9 +48,17 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
   $group->put('[/]', \PedidoController ::class . ':ModificarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
   $group->post('/subirfoto[/]', \PedidoController ::class . ':SubirFoto')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
+
   $group->get('/consultartiempoestimado[/]', \PedidoController ::class . ':GetTiempoEstimado');
+  $group->get('/mejorescomentarios[/]', \PedidoController ::class . ':GetMejoresComentarios')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
+  $group->get('/entregadostarde[/]', \PedidoController ::class . ':GetEntregadosTarde')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
+$app->put('/subirfoto[/]', \PedidoController ::class . ':SubirFotoB64')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
+
+$app->get('/pdf[/]', \PDFController ::class . ':GetPDF');
+
+$app->put('/encuesta[/]', \PedidoController ::class .  ':CompletarEncuesta');
 $app->put('/servirpedido[/]', \PedidoController ::class . ':ServirPedido')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
 $app->put('/cobrarpedido[/]', \PedidoController ::class . ':CobrarPedido')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
 
@@ -68,11 +78,9 @@ $app->run();
 // composer update
 // php -S localhost:666
 
-// <?php echo `whoami`; 
-
 /*
- * DE LOS PEDIDOS:
- * VER ANIDADOS LOS PRODUCTOS EN EL JSON PEDIDOS 
-*/
+  Delete de todas las entidades
+  Web Hosting
+ */
 
 ?>

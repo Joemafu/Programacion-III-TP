@@ -56,4 +56,19 @@ class Mesa
 
         return $consulta->fetchColumn();
     } 
+
+    public static function obtenerMesaMasUsada()
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta('SELECT id, contadorClientes
+            FROM mesas 
+            ORDER BY contadorClientes DESC 
+            LIMIT 1');
+        $consulta->execute();
+
+        $mesaMasUsada = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        $retorno = "La mesa mas usada es la mesa ID " . $mesaMasUsada['id']." con " . $mesaMasUsada["contadorClientes"]. " clientes.";
+        return $retorno;
+    }
 }

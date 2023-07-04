@@ -49,26 +49,121 @@ class Pedido
         {
             case "socio":
                 {
-                    $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos");
-                    
+                    $consulta = $objAccesoDatos->prepararConsulta("SELECT p.*, pp.id AS 'ID producto pedido',
+                        pp.idPedido AS 'ID pedido', 
+                        pp.idProducto AS 'ID producto', 
+                        pp.idEmpleado AS 'ID empleado', 
+                        pp.cantidad AS 'Cantidad', 
+                        pp.valorSubtotal AS 'Valor subtotal',
+                        pp.estado AS 'Estado', 
+                        pp.tiempoEstimado AS 'Tiempo estimado del producto', 
+                        pp.entregadoATiempo AS 'Entregado a tiempo', 
+                        pp.rolPreparador AS 'Rol del preparador',
+                        pr.nombre AS 'Nombre del producto'
+                        FROM pedidos AS p 
+                        LEFT JOIN productopedidos AS pp ON p.id = pp.idPedido 
+                        LEFT JOIN productos AS pr ON pp.idProducto = pr.id");
                     $consulta->execute();
 
-                    return $consulta->fetchAll(PDO::FETCH_ASSOC);
+                    $pedidos = [];
+                    while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                        $idPedido = $fila['id'];
+                        if (!isset($pedidos[$idPedido])) {
+                            $pedidos[$idPedido] = [
+                                "ID" => $fila['id'],
+                                "Nombre del cliente" => $fila['nombreCliente'],
+                                "Estado" => $fila['estado'],
+                                "Tiempo estimado" => $fila['tiempoEstimado'],
+                                "Foto" => $fila['foto'],
+                                "Codigo de seguimiento" => $fila['codigoSeguimiento'],
+                                "ID de la mesa" => $fila['idMesa'],
+                                "Puntuacion de la mesa" => $fila['puntuacionMesa'],
+                                "Puntuacion del restaurante" => $fila['puntuacionRestaurante'],
+                                "Puntuacion del mozo" => $fila['puntuacionMozo'],
+                                "Puntuacion del cocinero" => $fila['puntuacionCocinero'],
+                                "Resenia" => $fila['resenia'],
+                                "Valor total" => $fila['valorTotal'],
+                                "Fecha" => $fila['fecha'],
+                                "Entregado a tiempo" => $fila['entregadoATiempo'],
+                                "Productos" => []
+                            ];
+                        }
+
+                        $producto = [
+                            "Nombre del producto" => $fila['Nombre del producto'],
+                            "ID producto pedido" => $fila['ID producto pedido'],
+                            "ID pedido" => $fila['ID pedido'],
+                            "ID Producto" => $fila['ID producto'],
+                            "ID empleado" => $fila['ID empleado'],
+                            "Cantidad" => $fila['Cantidad'],
+                            "Valor subtotal" => $fila['Valor subtotal'],
+                            "Estado" => $fila['Estado'],
+                            "Tiempo estimado del producto" => $fila['Tiempo estimado del producto'],
+                            "Entregado a tiempo" => $fila['Entregado a tiempo'],
+                            "Rol del Preparador" => $fila['Rol del preparador']
+                        ];
+                        $pedidos[$idPedido]['Productos'][] = $producto;
+                    }
+
+                    return $pedidos;
                 }
             case "mozo":
                 {
-                    $consulta = $objAccesoDatos->prepararConsulta("SELECT * FROM pedidos WHERE estado != :estado");
+                    $consulta = $objAccesoDatos->prepararConsulta('SELECT p.id, 
+                    p.nombreCliente, 
+                    p.tiempoEstimado, 
+                    p.foto, 
+                    p.codigoSeguimiento, 
+                    p.idMesa, 
+                    p.valorTotal, 
+                    p.fecha, 
+                    p.entregadoATiempo, 
+                    pp.cantidad, 
+                    pp.estado, 
+                    pp.tiempoEstimado AS `Tiempo estimado del producto`, 
+                    pr.nombre AS `Nombre del producto` 
+                    FROM pedidos AS p 
+                    LEFT JOIN productopedidos AS pp ON p.id = pp.idPedido 
+                    LEFT JOIN productos AS pr ON pp.idProducto = pr.id 
+                    WHERE p.estado != :estado');
                     $consulta->bindValue(':estado', "cobrado", PDO::PARAM_STR);
                     $consulta->execute();
-            
-                    return $consulta->fetchAll(PDO::FETCH_CLASS, 'Pedido');
+
+                    $pedidos = [];
+                    while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+                        $idPedido = $fila['id'];
+                        if (!isset($pedidos[$idPedido])) {
+                            $pedidos[$idPedido] = [
+                                "ID" => $fila['id'],
+                                "Nombre del cliente" => $fila['nombreCliente'],
+                                "Tiempo estimado" => $fila['tiempoEstimado'],
+                                "Foto" => $fila['foto'],
+                                "Codigo de seguimiento" => $fila['codigoSeguimiento'],
+                                "ID de la mesa" => $fila['idMesa'],
+                                "Valor total" => $fila['valorTotal'],
+                                "Fecha" => $fila['fecha'],
+                                "Entregado a tiempo" => $fila['entregadoATiempo'],
+                                "Productos" => []
+                            ];
+                        }
+
+                        $producto = [
+                            "Nombre del producto" => $fila['Nombre del producto'],
+                            "cantidad" => $fila['cantidad'],
+                            "estado" => $fila['estado'],
+                            "Tiempo estimado del producto" => $fila['Tiempo estimado del producto']
+                        ];
+                        $pedidos[$idPedido]['Productos'][] = $producto;
+                    }
+
+                    return $pedidos;
                 }
             default:
                 {
                     $consulta = $objAccesoDatos->prepararConsulta("SELECT p.nombre, pp.id, pp.idPedido, pp.idProducto, pp.idEmpleado, pp.cantidad, pp.estado, pp.tiempoEstimado
                         FROM productopedidos pp 
                         LEFT JOIN productos p ON pp.idProducto = p.id 
-                        WHERE pp.estado != :estado AND pp.rolPreparador = :rolPreparador AND (pp.idEmpleado = :idEmpleado OR pp.idEmpleado IS NULL)");
+                        WHERE pp.estado !=:estado AND pp.rolPreparador = :rolPreparador AND (pp.idEmpleado = :idEmpleado OR pp.idEmpleado IS NULL)");
                     $consulta->bindValue(':rolPreparador', $rol, PDO::PARAM_STR);
                     $consulta->bindValue(':estado', "servido", PDO::PARAM_STR);
                     $consulta->bindValue(':idEmpleado', $id, PDO::PARAM_INT);
@@ -142,6 +237,45 @@ class Pedido
         return $codigo;
     }
 
+    // Esta es con PUT pero llega dañada.
+    public function AgregarFotoB64($id, $foto)
+    {
+        if(Pedido::pedidoExiste($id))
+        {
+            $fotoBinaria = base64_decode($foto);
+
+            $nombreArchivo = "/".$id.".jpg";
+
+            $directorioDestino = '../FotosClientes';
+
+            if (!is_dir($directorioDestino)) {
+                mkdir($directorioDestino, 0777, true);
+            }
+
+            $rutaDestino = $directorioDestino . $nombreArchivo;
+
+            if (file_put_contents($rutaDestino, $fotoBinaria)) 
+            {
+                $objAccesoDatos = AccesoDatos::obtenerInstancia();
+                $consulta = $objAccesoDatos->prepararConsulta('UPDATE pedidos SET foto = :foto WHERE id = :id');
+                $consulta->bindValue(':foto', $rutaDestino, PDO::PARAM_STR);
+                $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+                $consulta->execute();
+
+                return true;
+
+            } else 
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // ESTE FUNCIONA CON POST
     public function AgregarFoto($id, $foto)
     {
         if(Pedido::pedidoExiste($id))
@@ -243,5 +377,119 @@ class Pedido
         $numFilasAfectadas = $consulta->rowCount();
 
         return $numFilasAfectadas > 0;
+    }
+
+    public static function pedidoExisteByCodigoSeguimiento($codigoSeguimiento)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT COUNT(*) FROM pedidos WHERE codigoSeguimiento = :codigoSeguimiento");
+        $consulta->bindValue(':codigoSeguimiento', $codigoSeguimiento, PDO::PARAM_INT);
+        $consulta->execute();
+
+        return $consulta->fetchColumn() > 0;
+    }
+
+    public static function completarResenia($codigoSeguimiento, $puntuacionMesa, $puntuacionRestaurante, $puntuacionMozo, $puntuacionCocinero, $resenia)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta('UPDATE pedidos 
+        SET puntuacionMesa = :puntuacionMesa, puntuacionRestaurante = :puntuacionRestaurante, puntuacionMozo = :puntuacionMozo, puntuacionCocinero = :puntuacionCocinero, resenia = :resenia 
+        WHERE codigoSeguimiento = :codigoSeguimiento');
+        $consulta->bindValue(':codigoSeguimiento', $codigoSeguimiento, PDO::PARAM_STR);
+        $consulta->bindValue(':puntuacionMesa', $puntuacionMesa, PDO::PARAM_INT);
+        $consulta->bindValue(':puntuacionRestaurante', $puntuacionRestaurante, PDO::PARAM_INT);
+        $consulta->bindValue(':puntuacionMozo', $puntuacionMozo, PDO::PARAM_INT);
+        $consulta->bindValue(':puntuacionCocinero', $puntuacionCocinero, PDO::PARAM_INT);
+        $consulta->bindValue(':resenia', $resenia, PDO::PARAM_STR);
+        $consulta->execute();
+
+        $numFilasAfectadas = $consulta->rowCount();
+
+        return $numFilasAfectadas > 0;
+    }
+
+    public static function obtenerMejoresComentarios()
+    {
+
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta('SELECT resenia 
+            FROM pedidos 
+            ORDER BY puntuacionRestaurante + puntuacionMesa + puntuacionMozo + puntuacionCocinero DESC 
+            LIMIT 5');
+        $consulta->execute();
+
+        $comentarios = $consulta->fetchAll(PDO::FETCH_COLUMN, 0);
+
+        $mejoresComentarios = [];
+        foreach ($comentarios as $key => $comentario) {
+            $mejoresComentarios["top " . ($key + 1)] = $comentario;
+        }
+
+        return $mejoresComentarios;
+    }
+
+    public static function obtenerEntregadosTarde()
+    {
+
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT p.*, pp.id AS 'ID producto pedido',
+            pp.idPedido AS 'ID pedido', 
+            pp.idProducto AS 'ID producto', 
+            pp.idEmpleado AS 'ID empleado', 
+            pp.cantidad AS 'Cantidad', 
+            pp.valorSubtotal AS 'Valor subtotal',
+            pp.estado AS 'Estado', 
+            pp.tiempoEstimado AS 'Tiempo estimado del producto', 
+            pp.entregadoATiempo AS 'Entregado a tiempo', 
+            pp.rolPreparador AS 'Rol del preparador',
+            pr.nombre AS 'Nombre del producto'
+            FROM pedidos AS p 
+            LEFT JOIN productopedidos AS pp ON p.id = pp.idPedido 
+            LEFT JOIN productos AS pr ON pp.idProducto = pr.id
+            WHERE p.entregadoATiempo = :entregadoATiempo");
+        $consulta->bindValue(':entregadoATiempo', "no", PDO::PARAM_STR);
+        $consulta->execute();
+
+        $pedidos = [];
+        while ($fila = $consulta->fetch(PDO::FETCH_ASSOC)) {
+            $idPedido = $fila['id'];
+            if (!isset($pedidos[$idPedido])) {
+                $pedidos[$idPedido] = [
+                    "ID" => $fila['id'],
+                    "Nombre del cliente" => $fila['nombreCliente'],
+                    "Estado" => $fila['estado'],
+                    "Tiempo estimado" => $fila['tiempoEstimado'],
+                    "Foto" => $fila['foto'],
+                    "Codigo de seguimiento" => $fila['codigoSeguimiento'],
+                    "ID de la mesa" => $fila['idMesa'],
+                    "Puntuacion de la mesa" => $fila['puntuacionMesa'],
+                    "Puntuacion del restaurante" => $fila['puntuacionRestaurante'],
+                    "Puntuacion del mozo" => $fila['puntuacionMozo'],
+                    "Puntuacion del cocinero" => $fila['puntuacionCocinero'],
+                    "Resenia" => $fila['resenia'],
+                    "Valor total" => $fila['valorTotal'],
+                    "Fecha" => $fila['fecha'],
+                    "Entregado a tiempo" => $fila['entregadoATiempo'],
+                    "Productos" => []
+                ];
+            }
+
+            $producto = [
+                "Nombre del producto" => $fila['Nombre del producto'],
+                "ID producto pedido" => $fila['ID producto pedido'],
+                "ID pedido" => $fila['ID pedido'],
+                "ID Producto" => $fila['ID producto'],
+                "ID empleado" => $fila['ID empleado'],
+                "Cantidad" => $fila['Cantidad'],
+                "Valor subtotal" => $fila['Valor subtotal'],
+                "Estado" => $fila['Estado'],
+                "Tiempo estimado del producto" => $fila['Tiempo estimado del producto'],
+                "Entregado a tiempo" => $fila['Entregado a tiempo'],
+                "Rol del Preparador" => $fila['Rol del preparador']
+            ];
+            $pedidos[$idPedido]['Productos'][] = $producto;
+        }
+
+        return $pedidos;
     }
 }
