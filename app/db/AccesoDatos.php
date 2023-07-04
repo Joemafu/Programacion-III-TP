@@ -17,7 +17,7 @@ class AccesoDatos
             $this->objetoPDO = new PDO($dsn, $username, $password);
 
             //Local
-            //$this->objetoPDO = new PDO('mysql:host=localhost;dbname=proyectocomanda;charset=utf8;port=3306', 'root', '', array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            // $this->objetoPDO = new PDO('mysql:host=localhost;dbname=proyectocomanda;charset=utf8;port=3306', 'root', '', array(PDO::ATTR_EMULATE_PREPARES => false, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $this->objetoPDO->exec("SET CHARACTER SET utf8");
         } catch (PDOException $e) {
             print "Error: " . $e->getMessage();

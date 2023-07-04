@@ -23,13 +23,14 @@ class ProductoPedido
         if (!Producto::productoExisteById($this->idProducto)) {
             return false;
         }
+        
 
         $this->rolPreparador = Producto::getRolById($this->idProducto);
 
         $this->valorSubtotal = (int)$this->cantidad * (double)Producto::getPrecioById($this->idProducto);
-
+        
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
-        $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productopedidos (idPedido, idProducto, cantidad, estado, rolPreparador, valorSubtotal) VALUES (:idPedido,:idProducto,:cantidad, :rolPreparador, :valorSubtotal)');
+        $consulta = $objAccesoDatos->prepararConsulta('INSERT INTO productopedidos (idPedido, idProducto, cantidad, estado, rolPreparador, valorSubtotal) VALUES (:idPedido,:idProducto,:cantidad, :estado, :rolPreparador, :valorSubtotal)');
         $consulta->bindValue(':idPedido', $this->idPedido, PDO::PARAM_STR);
         $consulta->bindValue(':idProducto', $this->idProducto, PDO::PARAM_INT);
         $consulta->bindValue(':cantidad', $this->cantidad, PDO::PARAM_STR);
@@ -122,16 +123,6 @@ class ProductoPedido
         return $consulta->fetchColumn() > 0;
     }
 
-
-
-
-
-
-
-
-
-
-
     public static function CalcularTiempoEstimado($idPedido)
     {
         $objAccesoDatos = AccesoDatos::obtenerInstancia();
@@ -142,5 +133,36 @@ class ProductoPedido
         $resultado = $consulta->fetchColumn();
 
         return $resultado;
+    }
+
+    public static function deletePorId($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consultaIdPedido = $objAccesoDatos->prepararConsulta("SELECT idPedido FROM productopedidos WHERE id = :id");
+        $consultaIdPedido->bindValue(':id', $id, PDO::PARAM_INT);
+        $consultaIdPedido->execute();
+        $idPedido = $consultaIdPedido->fetchColumn();
+
+        $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM productopedidos WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        $numFilasAfectadas = $consulta->rowCount();
+
+        Pedido::CalcularTotalPedido($idPedido);
+    
+        return $numFilasAfectadas > 0;
+    }
+
+    public static function deleteCascadaPorIdPedido($idPedido)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM productopedidos WHERE idPedido = :idPedido");
+        $consulta->bindValue(':idPedido', $idPedido, PDO::PARAM_INT);
+        $consulta->execute();
+
+        $numFilasAfectadas = $consulta->rowCount();
+    
+        return $numFilasAfectadas > 0;
     }
 }

@@ -28,17 +28,20 @@ $app->group('/usuarios', function (RouteCollectorProxy $group) {
     $group->get('[/]', \UsuarioController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     $group->post('/csv[/]', \UsuarioController ::class . ':CargarDesdeCSV')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     $group->get('/csv[/]', \UsuarioController ::class . ':DescargarTodosCSV');//->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
+    $group->delete('/borrar', \UsuarioController ::class . ':BorrarPorId')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 $app->group('/productos', function (RouteCollectorProxy $group) {
     $group->post('[/]', \ProductoController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
     $group->get('[/]', \ProductoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
+    $group->delete('/borrar', \ProductoController ::class . ':BorrarPorId')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 $app->group('/mesas', function (RouteCollectorProxy $group) {
   $group->post('[/]', \MesaController ::class . ':CargarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
   $group->get('[/]', \MesaController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
   $group->get('/lamasusada', \MesaController ::class . ':TraerMesaMasUsada')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
+  $group->delete('/borrar', \MesaController ::class . ':BorrarPorId')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 $app->put('/cerrarmesa[/]', \MesaController ::class . ':CerrarMesa')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
@@ -48,22 +51,22 @@ $app->group('/pedidos', function (RouteCollectorProxy $group) {
   $group->get('[/]', \PedidoController ::class . ':TraerTodos')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo","bartender","cervecero","cocinero"]));
   $group->put('[/]', \PedidoController ::class . ':ModificarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
   $group->post('/subirfoto[/]', \PedidoController ::class . ':SubirFoto')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
-
   $group->get('/consultartiempoestimado[/]', \PedidoController ::class . ':GetTiempoEstimado');
   $group->get('/mejorescomentarios[/]', \PedidoController ::class . ':GetMejoresComentarios')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
   $group->get('/entregadostarde[/]', \PedidoController ::class . ':GetEntregadosTarde')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
+  $group->delete('/borrar', \PedidoController ::class . ':BorrarPorId')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 $app->put('/subirfoto[/]', \PedidoController ::class . ':SubirFotoB64')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
-
-$app->get('/pdf[/]', \PDFController ::class . ':GetPDF');
-
 $app->put('/encuesta[/]', \PedidoController ::class .  ':CompletarEncuesta');
 $app->put('/servirpedido[/]', \PedidoController ::class . ':ServirPedido')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
 $app->put('/cobrarpedido[/]', \PedidoController ::class . ':CobrarPedido')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio", "mozo"]));
 
+$app->get('/pdf[/]', \PDFController ::class . ':GetPDF');
+
 $app->group('/productopedidos', function (RouteCollectorProxy $group) {
   $group->put('[/]', \ProductoPedidoController ::class . ':ModificarUno')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio","bartender","cervecero","cocinero"]));
+  $group->delete('/borrar', \ProductoPedidoController ::class . ':BorrarPorId')->add(new JwtTokenValidatorMiddleware("UTNFRA2023#", ["socio"]));
 });
 
 $app->post('/login', function ($request, $response, $args) {

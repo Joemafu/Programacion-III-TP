@@ -33,13 +33,13 @@ class PedidoController extends Pedido implements IApiUsable
 
             foreach ($productosPedidos as $producto)
             {
+                
                 $productoPedido = new ProductoPedido();
                 $productoPedido->idPedido= $idPedido;
                 $productoPedido->idProducto = $producto['idProducto'];
                 $productoPedido->cantidad = $producto['cantidad'];
-
                 $productoPedido->crearProductoPedido();
-
+                
                 Producto::incrementarProductoVendido($productoPedido->idProducto, $productoPedido->cantidad);
             }
 
@@ -244,6 +244,23 @@ class PedidoController extends Pedido implements IApiUsable
         $entregadosTarde = Pedido::obtenerEntregadosTarde();
 
         $payload = json_encode($entregadosTarde);
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
+
+    public function BorrarPorId($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        if(Pedido::deletePorId($id))
+        {
+            $payload = json_encode(array("Ok" => "Pedido eliminado."));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "No se pudo eliminar el Pedido. ID Incorrecto."));
+        }
 
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');

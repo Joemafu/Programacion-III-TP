@@ -65,7 +65,6 @@ class UsuarioController extends Usuario implements IApiUsable
 
         if ($archivoCSV->getError() === UPLOAD_ERR_OK) {
 
-            // Obtener el contenido del archivo CSV
             $contenidoCsv = file_get_contents($archivoCSV->getStream()->getMetadata('uri'));
 
             if (!empty($contenidoCsv))
@@ -123,5 +122,22 @@ class UsuarioController extends Usuario implements IApiUsable
             $response->withStatus(400)->getBody()->write("Error al cargar el archivo CSV");
         }   
         return $response;
+    }
+
+    public function BorrarPorId($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        if(Usuario::deletePorId($id))
+        {
+            $payload = json_encode(array("Ok" => "Usuario eliminado."));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "No se pudo eliminar el usuario. ID Incorrecto."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

@@ -7,415 +7,1548 @@
 	},
 	"item": [
 		{
-			"name": "Consulta Usuarios",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "localhost:666/usuarios",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"usuarios"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Consulta Mesas",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJtb3pvIn0.oiPmBZhCv17iRVfPtghwhSJnDGWT-d87K-Bmgd6O6P8",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "localhost:666/mesas",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"mesas"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Consulta Productos",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJtb3pvIn0.oiPmBZhCv17iRVfPtghwhSJnDGWT-d87K-Bmgd6O6P8",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "localhost:666/productos",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"productos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Consulta Pedidos",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJtb3pvIn0.oiPmBZhCv17iRVfPtghwhSJnDGWT-d87K-Bmgd6O6P8",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "localhost:666/pedidos",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"pedidos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Alta Usuario",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "usuario",
-							"value": "altaTest3",
-							"type": "text"
-						},
-						{
-							"key": "clave",
-							"value": "pa$$",
-							"type": "text"
-						},
-						{
-							"key": "rol",
-							"value": "cervecero",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:666/usuarios",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"usuarios"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Alta Mesa",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "estado",
-							"value": "abierta",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:666/mesas",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"mesas"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Alta Producto",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "nombre",
-							"value": "milanesa con fritas",
-							"type": "text"
-						},
-						{
-							"key": "precio",
-							"value": "34.99",
-							"type": "text"
-						},
-						{
-							"key": "tipo",
-							"value": "comida",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:666/productos",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"productos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Alta Pedido",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "nombreCliente",
-							"value": "Pedro",
-							"type": "text"
-						},
-						{
-							"key": "producto",
-							"value": "Daiquiri",
-							"type": "text"
-						},
-						{
-							"key": "estado",
-							"value": "en preparacion",
-							"type": "text"
-						},
-						{
-							"key": "tiempoEstimado",
-							"value": "25",
-							"type": "text"
-						},
-						{
-							"key": "foto",
-							"type": "file",
-							"src": "/C:/Users/Joe/Desktop/Captura de pantalla 2023-03-28 195003.png"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:666/pedidos",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"pedidos"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "usuario",
-							"value": "socioTest",
-							"type": "text"
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "socioTest",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "socioTest",
+									"type": "text"
+								}
+							]
 						},
-						{
-							"key": "clave",
-							"value": "socioTest",
-							"type": "text"
+						"url": {
+							"raw": "localhost:666/login",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"login"
+							]
 						}
-					]
-				},
-				"url": {
-					"raw": "localhost:666/login",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"login"
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Login Copy",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "id",
-							"value": "45",
-							"type": "text"
+			"name": "Consultas",
+			"item": [
+				{
+					"name": "__Consulta Usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
 						},
-						{
-							"key": "estado",
-							"value": "listo para servir",
-							"type": "text"
+						"url": {
+							"raw": "localhost:666/usuarios",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"usuarios"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:666/pedidos",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"pedidos"
-					]
+				{
+					"name": "Consulta Mesas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:666/mesas",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Productos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:666/productos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Pedidos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:666/pedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Tiempo Estimado Pedido",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/consultartiempoestimado?nroPedido=5C519",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"consultartiempoestimado"
+							],
+							"query": [
+								{
+									"key": "nroPedido",
+									"value": "5C519"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Mejores Comentarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/mejorescomentarios",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"mejorescomentarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Mesa Mas Usada",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/mesas/lamasusada",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"lamasusada"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Entregados Tarde",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/entregadostarde",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"entregadostarde"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Descargar CSV usuarios",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "urlencoded",
-					"urlencoded": []
+			"name": "Altas",
+			"item": [
+				{
+					"name": "__Alta Usuario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "altaTest24",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "pa$$word",
+									"type": "text"
+								},
+								{
+									"key": "rol",
+									"value": "mozo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/usuarios",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:666/usuarios/csv",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"usuarios",
-						"csv"
-					]
+				{
+					"name": "__Alta Mesa",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "estado",
+									"value": "disponible",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/mesas",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "__Alta Producto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "nuevo producto",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "12.59",
+									"type": "text"
+								},
+								{
+									"key": "tipo",
+									"value": "trago",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/productos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMesa\": \"3\",\r\n    \"nombreCliente\": \"Maria\",\r\n    \"productos\": [\r\n        {\r\n            \"idProducto\": 7,\r\n            \"cantidad\":1\r\n        },\r\n        {\r\n            \"idProducto\": 8,\r\n            \"cantidad\":2\r\n        },\r\n        {\r\n            \"idProducto\": 9,\r\n            \"cantidad\":1\r\n        },\r\n        {\r\n            \"idProducto\": 10,\r\n            \"cantidad\":1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/pedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Carga Usuarios CSV",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2wiOiJzb2NpbyJ9.Zx6xV70vP4GyDNuXK4ktceFc6mM7rWRZXUoJdOfkx0A",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "usuariosCSV",
-							"type": "file",
-							"src": "/C:/Users/Joe/Desktop/usuarios.csv"
+			"name": "Gestion de Archivos",
+			"item": [
+				{
+					"name": "Bajar logo PDF",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pdf",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pdf"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "localhost:666/usuarios/csv",
-					"host": [
-						"localhost"
-					],
-					"port": "666",
-					"path": [
-						"usuarios",
-						"csv"
-					]
+				{
+					"name": "__Descargar CSV usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:666/usuarios/csv",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"usuarios",
+								"csv"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "__Carga Usuarios CSV",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuariosCSV",
+									"type": "file",
+									"src": "/C:/xampp/htdocs/Programacion-III-TP/app/Utilidades/usuarios.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/usuarios/csv",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"usuarios",
+								"csv"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "Bajas",
+			"item": [
+				{
+					"name": "Borrar Producto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "12",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/productos/borrar",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "13",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/usuarios/borrar",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"usuarios",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar Mesa",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "6",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/mesas/borrar",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar Pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "59",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/borrar",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar Producto Pedido",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "91",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/productopedidos/borrar",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedidos",
+								"borrar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Modificaciones",
+			"item": [
+				{
+					"name": "Agregar foto Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "foto",
+									"type": "file",
+									"src": "/C:/xampp/htdocs/Programacion-III-TP/app/Utilidades/logo.jpg"
+								},
+								{
+									"key": "idPedido",
+									"value": "34",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/subirfoto",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"subirfoto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar foto Pedido por PUT (Llega Dañado)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idPedido\": \"34\",\r\n  \"foto\": \" data:image/jpeg;base64,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\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/subirfoto",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"subirfoto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar estado producto pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "71",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "listo para servir",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/productopedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar estado pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "45",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "listo para servir",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/pedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Servir Pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"39\",\r\n    \"entregadoATiempo\": \"si\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/servirpedido",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"servirpedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cobrar Pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"39\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/cobrarpedido",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"cobrarpedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cerrar Mesa",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/cerrarmesa",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"cerrarmesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar Reseña",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigoSeguimiento\": \"5C519\",\r\n    \"puntuacionMesa\": 6,\r\n    \"puntuacionRestaurante\": 9,\r\n    \"puntuacionMozo\": 10,\r\n    \"puntuacionCocinero\": 9,\r\n    \"resenia\": \"La comida muy rica, el lugar agradable, la atención muy cordial.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/encuesta",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CIRCUITO COMPLETO",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "usuario",
+									"value": "mozoTest",
+									"type": "text"
+								},
+								{
+									"key": "clave",
+									"value": "mozoTest",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/login",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Productos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:666/productos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Mesas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:666/mesas",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Alta Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idMesa\": \"2\",\r\n    \"nombreCliente\": \"Federico\",\r\n    \"productos\": [\r\n        {\r\n            \"idProducto\": 7,\r\n            \"cantidad\":1\r\n        },\r\n        {\r\n            \"idProducto\": 8,\r\n            \"cantidad\":2\r\n        },\r\n        {\r\n            \"idProducto\": 9,\r\n            \"cantidad\":1\r\n        },\r\n        {\r\n            \"idProducto\": 10,\r\n            \"cantidad\":1\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/pedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar foto Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "foto",
+									"type": "file",
+									"src": "/C:/xampp/htdocs/Programacion-III-TP/app/Utilidades/logo.jpg"
+								},
+								{
+									"key": "idPedido",
+									"value": "45",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/subirfoto",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"subirfoto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Pedidos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:666/pedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar estado producto pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "84",
+									"type": "text"
+								},
+								{
+									"key": "estado",
+									"value": "listo para servir",
+									"type": "text"
+								},
+								{
+									"key": "tiempoEstimado",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:666/productopedidos",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"productopedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Tiempo Estimado Pedido",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/consultartiempoestimado?nroPedido=EA845",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"consultartiempoestimado"
+							],
+							"query": [
+								{
+									"key": "nroPedido",
+									"value": "EA845"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Servir Pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"45\",\r\n    \"entregadoATiempo\": \"si\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/servirpedido",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"servirpedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cobrar Pedido",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"45\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/cobrarpedido",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"cobrarpedido"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cerrar Mesa",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/cerrarmesa",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"cerrarmesa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enviar Reseña",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigoSeguimiento\": \"EA845\",\r\n    \"puntuacionMesa\": 6,\r\n    \"puntuacionRestaurante\": 9,\r\n    \"puntuacionMozo\": 10,\r\n    \"puntuacionCocinero\": 9,\r\n    \"resenia\": \"La comida muy rica, el lugar agradable, la atención muy cordial.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:666/encuesta",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"encuesta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Mejores Comentarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/mejorescomentarios",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"mejorescomentarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Mesa Mas Usada",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/mesas/lamasusada",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"mesas",
+								"lamasusada"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Consulta Entregados Tarde",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pedidos/entregadostarde",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pedidos",
+								"entregadostarde"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Bajar logo PDF",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:666/pdf",
+							"host": [
+								"localhost"
+							],
+							"port": "666",
+							"path": [
+								"pdf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "usuario",
+			"value": "bartenderTest"
 		}
 	]
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-07-2023 a las 19:59:24
+-- Tiempo de generación: 04-07-2023 a las 22:44:04
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -99,7 +99,6 @@ CREATE TABLE `productopedidos` (
 --
 
 INSERT INTO `productopedidos` (`id`, `idPedido`, `idProducto`, `idEmpleado`, `cantidad`, `valorSubtotal`, `estado`, `tiempoEstimado`, `entregadoATiempo`, `rolPreparador`) VALUES
-(83, 45, 7, 5, 1, 34.99, 'servido', 50, 'si', 'cocinero'),
 (84, 45, 8, 5, 2, 69.98, 'servido', 30, 'si', 'cocinero'),
 (85, 45, 9, 4, 1, 7.99, 'servido', 15, 'si', 'cervecero'),
 (86, 45, 10, 3, 1, 12.29, 'servido', 25, 'si', 'bartender');
@@ -129,10 +128,10 @@ INSERT INTO `productos` (`id`, `nombre`, `precio`, `tipo`, `contadorVendidos`) V
 (4, 'tiramisu', '11.00', 'postre', 0),
 (5, 'bife', '30.99', 'postre', 0),
 (6, 'milanesa con fritas', '34.99', 'comida', 0),
-(7, 'milanesa a caballo', '34.99', 'comida', 5),
-(8, 'hamburguesa de garbanzo', '34.99', 'comida', 10),
-(9, 'corona', '7.99', 'cerveza', 5),
-(10, 'daikiri', '12.29', 'trago', 5);
+(7, 'milanesa a caballo', '34.99', 'comida', 7),
+(8, 'hamburguesa de garbanzo', '34.99', 'comida', 14),
+(9, 'corona', '7.99', 'cerveza', 7),
+(10, 'daikiri', '12.29', 'trago', 7);
 
 -- --------------------------------------------------------
 
@@ -154,7 +153,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `usuario`, `clave`, `rol`, `suspendido`, `contadorOperaciones`) VALUES
-(1, 'socioTest', 'socioTest', 'socio', 0, 1),
+(1, 'socioTest', 'socioTest', 'socio', 0, 3),
 (2, 'mozoTest', 'mozoTest', 'mozo', 0, 3),
 (3, 'bartenderTest', 'bartenderTest', 'bartender', 0, 2),
 (4, 'cerveceroTest', 'cerveceroTest', 'cervecero', 0, 2),
@@ -202,31 +201,31 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `mesas`
 --
 ALTER TABLE `mesas`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT de la tabla `productopedidos`
 --
 ALTER TABLE `productopedidos`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

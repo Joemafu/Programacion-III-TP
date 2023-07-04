@@ -492,4 +492,36 @@ class Pedido
 
         return $pedidos;
     }
+
+    public static function deletePorId($id)
+    {
+        Pedido::LiberarMesaPorIdPedido($id);
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM pedidos WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        $numFilasAfectadas = $consulta->rowCount();
+
+        ProductoPedido::deleteCascadaPorIdPedido($id);
+    
+        return $numFilasAfectadas > 0;
+    }
+
+    public static function LiberarMesaPorIdPedido($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("SELECT idMesa FROM pedidos WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+        $idMesa = $consulta->fetchColumn();
+
+        if ($idMesa !== false) {
+            Mesa::ActualizarEstado($idMesa, "disponible");
+            return true;
+        }
+
+        return false;
+    }
+
 }

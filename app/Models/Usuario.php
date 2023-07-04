@@ -67,6 +67,22 @@ class Usuario
         $consulta->bindValue(':idEmpleado', $idEmpleado, PDO::PARAM_INT);
         $consulta->execute();
     }
+
+    public static function deletePorId($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM usuarios WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        $numFilasAfectadas = $consulta->rowCount();
+    
+        return $numFilasAfectadas > 0;
+    }
 }
 
 ?>
+
+
+
+

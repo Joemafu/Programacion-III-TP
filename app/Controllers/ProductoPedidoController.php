@@ -30,4 +30,21 @@ class ProductoPedidoController
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function BorrarPorId($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        if(ProductoPedido::deletePorId($id))
+        {
+            $payload = json_encode(array("Ok" => "Producto eliminado del pedido."));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "No se pudo eliminar el producto del pedido. ID Incorrecto."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }

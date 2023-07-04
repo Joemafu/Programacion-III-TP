@@ -71,4 +71,16 @@ class Mesa
         $retorno = "La mesa mas usada es la mesa ID " . $mesaMasUsada['id']." con " . $mesaMasUsada["contadorClientes"]. " clientes.";
         return $retorno;
     }
+
+    public static function deletePorId($id)
+    {
+        $objAccesoDatos = AccesoDatos::obtenerInstancia();
+        $consulta = $objAccesoDatos->prepararConsulta("DELETE FROM mesas WHERE id = :id");
+        $consulta->bindValue(':id', $id, PDO::PARAM_INT);
+        $consulta->execute();
+
+        $numFilasAfectadas = $consulta->rowCount();
+    
+        return $numFilasAfectadas > 0;
+    }
 }

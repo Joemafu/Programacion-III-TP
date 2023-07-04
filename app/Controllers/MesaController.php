@@ -56,4 +56,21 @@ class MesaController extends Mesa implements IApiUsable
         $response->getBody()->write($payload);
         return $response->withHeader('Content-Type', 'application/json');
     }
+
+    public function BorrarPorId($request, $response, $args)
+    {
+        $parametros = $request->getParsedBody();
+        $id = $parametros['id'];
+        if(Mesa::deletePorId($id))
+        {
+            $payload = json_encode(array("Ok" => "Mesa eliminado."));
+        }
+        else
+        {
+            $payload = json_encode(array("Error" => "No se pudo eliminar la Mesa. ID Incorrecto."));
+        }
+
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
+    }
 }
