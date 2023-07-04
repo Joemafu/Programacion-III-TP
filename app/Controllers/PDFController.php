@@ -17,7 +17,7 @@ class PDFController
 
         $response = new Response();
         $response = $response->withHeader('Content-Type', 'application/pdf');
-        $response = $response->withHeader('Content-Disposition', 'attachment; filename="imagen.pdf"');
+        $response = $response->withHeader('Content-Disposition', 'attachment; filename="logo.pdf"');
         $response->getBody()->write($pdfContent);
 
         return $response;
