@@ -1,9 +1,7 @@
 <?php
 
-use function PHPSTORM_META\type;
-
-require_once './Models/ProductoPedido.php';
-require_once './Interfaces/IApiUsable.php';
+require_once __DIR__ . '/../Models/ProductoPedido.php';
+require_once __DIR__ . '/../Interfaces/IApiUsable.php';
 
 class ProductoPedidoController
 {    

@@ -1,6 +1,7 @@
 <?php
-require_once './Models/Producto.php';
-require_once './Interfaces/IApiUsable.php';
+
+require_once __DIR__ . '/../Models/Producto.php';
+require_once __DIR__ . '/../Interfaces/IApiUsable.php';
 
 class ProductoController extends Producto implements IApiUsable
 {

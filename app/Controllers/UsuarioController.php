@@ -1,9 +1,7 @@
 <?php
 
-require_once './Models/Usuario.php';
-require_once './Interfaces/IApiUsable.php';
-
-use Psr\Http\Message\UploadedFileInterface;
+require_once __DIR__ . '/../Models/usuario.php';
+require_once __DIR__ . '/../Interfaces/IApiUsable.php';
 
 class UsuarioController extends Usuario implements IApiUsable
 {

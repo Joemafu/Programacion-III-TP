@@ -8,16 +8,16 @@ use Slim\Routing\RouteCollectorProxy;
 use App\Middlewares\JwtTokenValidatorMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
-require_once './Controllers/MesaController.php';
-require_once './Controllers/PDFController.php';
-require_once './Controllers/PedidoController.php';
-require_once './Controllers/ProductoController.php';
-require_once './Controllers/ProductoPedidoController.php';
-require_once './Controllers/UsuarioController.php';
-require_once './db/AccesoDatos.php';
-require_once './Middlewares/LoginMiddleware.php';
-require_once './Middlewares/JwtTokenGeneratorMiddleware.php';
-require_once './Middlewares/JwtTokenValidatorMiddleware.php';
+require_once __DIR__ . '/Controllers/MesaController.php';
+require_once __DIR__ . '/Controllers/PDFController.php';
+require_once __DIR__ . '/Controllers/PedidoController.php';
+require_once __DIR__ . '/Controllers/ProductoController.php';
+require_once __DIR__ . '/Controllers/ProductoPedidoController.php';
+require_once __DIR__ . '/Controllers/UsuarioController.php';
+require_once __DIR__ . '/db/AccesoDatos.php';
+require_once __DIR__ . '/Middlewares/LoginMiddleware.php';
+require_once __DIR__ . '/Middlewares/JwtTokenGeneratorMiddleware.php';
+require_once __DIR__ . '/Middlewares/JwtTokenValidatorMiddleware.php';
 
 $app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
