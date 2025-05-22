@@ -79,7 +79,7 @@ $app->post('/login', function ($request, $response, $args) {
 $app->run();
 
 // composer update
-// php -S localhost:666
+// php -S localhost:666 router.php
 
 /*
   Delete de todas las entidades
